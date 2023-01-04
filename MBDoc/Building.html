@@ -1,55 +1,55 @@
-<!DOCTYPE html><html><head><style>body{background-color: black; color: #00FF00;}</style></head><body><div style="width: 50%;margin: auto"><h1 style="text-align: center;">Building</h1>
+<!DOCTYPE html><html><head><style>body{background-color: black; color: #00FF00;}</style></head><body><div style="display: flex"><div style="width: 30%; display: inline-block"><details open=""><summary><a href="../index.html">/</a></summary><ul><li><a href="../index.html" >index.mbd</a></li><li><details><summary><a href="../MBCC/index.html">MBCC</a></summary><ul><li><a href="../MBCC/index.html" >index.mbd</a></li><li><a href="../MBCC/CLI.html" >CLI.mbd</a></li><li><a href="../MBCC/History.html" >History.mbd</a></li></ul></details></li><li><details open=""><summary><a href="index.html">MBDoc</a></summary><ul><li><a href="index.html" >index.mbd</a></li><li><a href="History.html" >History.mbd</a></li><li><a href="BuildPipeline.html" >BuildPipeline.mbd</a></li><li><mark><a href="" >Building.mbd</a></mark></li><li><a href="Format.html" >Format.mbd</a></li><li><a href="Attributes.html" >Attributes.mbd</a></li><li><a href="LinkResolving.html" >LinkResolving.mbd</a></li><li><a href="CodeIndex.html" >CodeIndex.mbd</a></li><li><a href="CLI.html" >CLI.mbd</a></li><li><details><summary><a href="Compiler/index.html">Compiler</a></summary><ul><li><a href="Compiler/index.html" >index.mbd</a></li></ul></details></li></ul></details></li><li><details><summary><a href="../MBPacketManager/index.html">MBPacketManager</a></summary><ul><li><a href="../MBPacketManager/index.html" >index.mbd</a></li><li><a href="../MBPacketManager/CLI.html" >CLI.mbd</a></li><li><a href="../MBPacketManager/DevelopmentStructure.html" >DevelopmentStructure.mbd</a></li><li><a href="../MBPacketManager/Packets.html" >Packets.mbd</a></li><li><a href="../MBPacketManager/PacketsSpecification.html" >PacketsSpecification.mbd</a></li><li><a href="../MBPacketManager/SubPackets.html" >SubPackets.mbd</a></li><li><a href="../MBPacketManager/Extensions.html" >Extensions.mbd</a></li><li><a href="../MBPacketManager/Terminology.html" >Terminology.mbd</a></li><li><a href="../MBPacketManager/History.html" >History.mbd</a></li><li><details><summary><a href="../MBPacketManager/MBBuild/index.html">MBBuild</a></summary><ul><li><a href="../MBPacketManager/MBBuild/index.html" >index.mbd</a></li><li><a href="../MBPacketManager/MBBuild/History.html" >History.mbd</a></li><li><a href="../MBPacketManager/MBBuild/Buildsystem.html" >Buildsystem.mbd</a></li><li><a href="../MBPacketManager/MBBuild/MBCompileConfigurations.html" >MBCompileConfigurations.mbd</a></li><li><a href="../MBPacketManager/MBBuild/MBDependancySpecification.html" >MBDependancySpecification.mbd</a></li><li><a href="../MBPacketManager/MBBuild/MBSourceInfo.html" >MBSourceInfo.mbd</a></li><li><a href="../MBPacketManager/MBBuild/CLI.html" >CLI.mbd</a></li></ul></details></li></ul></details></li></ul></details></div><div style="width: 80ch; display: inline-block; position: absolute; top: 0; left: 0; right: 0; bottom: 0; margin: auto;"><h1 style="text-align: center;">Building</h1>
 When compiling documents or compiling any type of program, manually inputting everything on the command line quickly get's very tedious. While some people might solve this with custom bash scripts or similar, providing a uniform portable way to build documentation should be a feature provided by the program. <br><br>
 
 This is something that notably isn't commonly done by compilers, and compiling for example C/C++ code is mostly dependant on extra tools such as make or cmake to make the build process easier. These build systems are however very feature full, providing arbitrary command execution and determining which file needs to be rebuilt and so on. <br><br>
 
-The provided build system here is purposefully very simple and declerative in it's structure, for a full motivation on the build philosophy go here  <a href="../MBBuild/index.html">MBBuild</a>.  <br><br>
+The provided build system here is purposefully very simple and declerative in it's structure, for a full motivation on the build philosophy go here  <a href="../MBPacketManager/MBBuild/index.html">MBBuild</a>.  <br><br>
 
 In the rest of the document the goals guiding the design of the build systems are described, followed by a syntactic description of the build files, and finally a description of the semantics and how they are used by the program <br><br>
 
-<h2 id="The Goals" style = "text-align: center;">1 The Goals</h2><br>
-<h3 id="Hand written and easily extensible" >1.1 Hand written and easily extensible</h3><br>
+<h1 id="The Goals" style = "text-align: center;">1 The Goals</h1><br>
+<h2 id="Hand written and easily extensible" >1.1 Hand written and easily extensible</h2><br>
         Some build systems like .sln are machine generated and meant to be used         solely by the target application, aren't feasible to write by hand, and         other systems like CMake can get relativly complex and require a lot of         maintenance. The build files used in MBDoc should be easy to write by         hand, simple so that constant rereading of the documentation isn't         needed to create them. <br><br>
 
-<h3 id="External tools friendly" >1.2 External tools friendly</h3><br>
+<h2 id="External tools friendly" >1.2 External tools friendly</h2><br>
         A common goal for many programs is that they are extensible, and combine         well with other applications. It is impossible for a program to foresee          all the possible use cases, and if the only way to utilize the         functionality is through to the original program, the functionality is         inherently limited. This means that a important part of the build         specification is that external tools can utilize them. <br><br>
 
-<h4 id="Declarative" >1.2.1 Declarative</h4><br>
+<h3 id="Declarative" >1.2.1 Declarative</h3><br>
             The build files should not specify the way documentation is created,             should only provide the minimum required components needed to make a             build.  <br><br>
 
-<h4 id="Only provide functionality that can be replicated on the CLI" >1.2.2 Only provide functionality that can be replicated on the CLI</h4><br>
+<h3 id="Only provide functionality that can be replicated on the CLI" >1.2.2 Only provide functionality that can be replicated on the CLI</h3><br>
             This ensures that there are no hidden features that are intrinsic to             the way these build files specify a build, and that the whole             process can be replicated by other programs invocing MBDoc. <br><br>
 
-<h3 id="Format/Semantic agnostic" >1.3 Format/Semantic agnostic</h3><br>
+<h2 id="Format/Semantic agnostic" >1.3 Format/Semantic agnostic</h2><br>
         This goal is something that is tighly integrated with the overall         philosophy of the project, and is meant to ensure that the way files          are built should not need to really on the target format and semantic. <br><br>
 
-        This doesn't neccesarilly mean that build files can't specify a target         semantic and format, as this could be used to simply creating mixed         semantic builds, it does however mean that they can't specify         semantic/format specific options for the build. <br><br>
+<mark>Note: </mark>        This doesn't neccesarilly mean that build files can't specify a target         semantic and format, as this could be used to simply creating mixed         semantic builds, it does however mean that they can't specify         semantic/format specific options for the build. <br><br>
 
-<h3 id="Future compatible" >1.4 Future compatible</h3><br>
+<h2 id="Future compatible" >1.4 Future compatible</h2><br>
         Extra functionality added to the build files should be something that         doesn't interfere with the default behaviour of previously written         files, and not specifying and option should always have a well defined         default behaviour that should match the default behaviour of the program         before this was able to be specified. <br><br>
 
-<h2 id="The syntax" style = "text-align: center;">2 The syntax</h2><br>
-    The build specification file follows the      <a href="#" style="color: red;">JSON format</a>. This ensures that the     files are able to be written by hand with a familiar syntax, aswell as     providing a syntax which is forwards compatible. Currently only 4 fields are     specified, and an application encountering a field it doesn't recognize is     free to ignore it.  <br><br>
+<h1 id="The syntax" style = "text-align: center;">2 The syntax</h1><br>
+    The build specification file follows the      <a href="../MBPacketManager/MBBuild/index.htmlhttps://www.json.org/json-en.html">JSON format</a>. This ensures that the     files are able to be written by hand with a familiar syntax, aswell as     providing a syntax which is forwards compatible. Currently only 4 fields are     specified, and an application encountering a field it doesn't recognize is     free to ignore it.  <br><br>
 
     The Build specication is a json object that can optionally contain the     following named fields. <br><br>
 
-<h3 id="Sources" >2.1 Sources</h3><br>
+<h2 id="Sources" >2.1 Sources</h2><br>
         The sources field has to be an array of strings, specifing the sources         contained in a project.  <br><br>
 
-<h3 id="SubBuilds" >2.2 SubBuilds</h3><br>
+<h2 id="SubBuilds" >2.2 SubBuilds</h2><br>
         This field is a JSON object whose field name describe the mount point         for a SubBuild, and whose value has to be a string specifing either a         a relative path or and absolute path of the subbuild json specification. <br><br>
 
-<h3 id="Version" >2.3 Version</h3><br>
-        A string following the semantics and syntax of <a href="#" style="color: red;"></a>.         The version describes the version of the Build specification file, and         is used mainly used as a hint to the program on how it should interpet         the file. Wheter the version is taken into account unspecified, and          the program is free to ignore this field entirely. <br><br>
+<h2 id="Version" >2.3 Version</h2><br>
+        A string following the semantics and syntax of <a href="../MBPacketManager/MBBuild/index.htmlhttps://www.json.org/json-en.htmlhttps://semver.org/">../MBPacketManager/MBBuild/index.htmlhttps://www.json.org/json-en.htmlhttps://semver.org/</a>.         The version describes the version of the Build specification file, and         is used mainly used as a hint to the program on how it should interpet         the file. Wheter the version is taken into account unspecified, and          the program is free to ignore this field entirely. <br><br>
 
-<h3 id="MinVersion" >2.4 MinVersion</h3><br>
+<h2 id="MinVersion" >2.4 MinVersion</h2><br>
         Like the Version field, this purpose of the field is to indicate which         version this build specification is, however, unlike the Version field         a MBDoc MUST read this field and determine wheter or not it can process         the file. A file that the program cannot process results in an error and         the build process stops.  <br><br>
 
         A program that encounters a file with a higher MinVersion than it's         latest implementation can process MUST result in an error, however, it's          implementation defined in what way older MinVersions that the current         supported are handled. <br><br>
 
     This concludes the syntax for the build specification files, and following     are a couple of examples <br><br>
 
-<h3 id="Examples" >2.5 Examples</h3><br>
+<h2 id="Examples" >2.5 Examples</h2><br>
     A build file only specifying sources contained. <br><br>
 
 <pre>{
@@ -66,21 +66,21 @@ In the rest of the document the goals guiding the design of the build systems ar
     "MinVersion":"0.2.0",
     "Sources":["foo.mbd","bar.mbd"] 
     "SubBuilds":{"SubBuild1":"../ParentDirectoryBuild.json","SubBuild2":"sub/SubDirectoryBuild.json"}
-}</pre><h2 id="Semantics" style = "text-align: center;">3 Semantics</h2><br>
+}</pre><h1 id="Semantics" style = "text-align: center;">3 Semantics</h1><br>
     The semantics for the Version and MinVersion fields are described above, and     the semantics for the other fields are entirely based on the concept of the     Document filesystem.  <br><br>
 
     A MBDocBuild always represent a complete directory structure. This directory     structure can then be "mounted" to other builds, in order to create more     complex builds. When mounting a subbuild, a new directory is created with     the name specified, with the directory contents being that of the sub build. <br><br>
 
-    With a naive implementation of a MBDocBuild parser, it is possible to     specify a cyclic build system where sub builds include the parent build, and     possibly creating a infinite loop. In order to remove this possibility so is     the inclusion of a subbuild that is already a part of the build treated as     an error, immediately ending the build. Builds are uniquely determined by     ther canoncial path to their build specification. <br><br>
+<mark>Note: </mark>    With a naive implementation of a MBDocBuild parser, it is possible to     specify a cyclic build system where sub builds include the parent build, and     possibly creating a infinite loop. In order to remove this possibility so is     the inclusion of a subbuild that is already a part of the build treated as     an error, immediately ending the build. Builds are uniquely determined by     ther canoncial path to their build specification. <br><br>
 
-<h3 id="Sources" >3.1 Sources</h3><br>
+<h2 id="Sources" >3.1 Sources</h2><br>
         The source array specify which source files should be a part of the         project. The syntax of the path is that of a POSIX path, and <i>the root         directory is the directory containing the current build specification</i>,         also, the special ".." directory is not allowed to be a part of the         path. This main implication of this is that the files included in a         MBDocBuild has to be part of the directory containing the build         specification. This is meant to ensure that moving a directory         containing the build specification doesn't change the behaviour, and to         encourage a completely modular design of the builds. <br><br>
 
         A source path has to point a file existing on the filesystem, and can't          for a example point to a directory. A path that doesn't exist or isn't a         file is treated as a fatal error and ends the build. <br><br>
 
         The files and their corresponding parent directories are included as is         in the document filesystem, essentially mimicing the local strucutre         entirely. <br><br>
 
-<h3 id="SubBuilds" >3.2 SubBuilds</h3><br>
+<h2 id="SubBuilds" >3.2 SubBuilds</h2><br>
         The Fields in the SubBuilds field specify a "mount point" for another         MBDocBuild. This creates a directory in the currents builds "document         fileystem" representation with the name specified as the name of the         field in the SubBuilds object, and the directories contents is that of         the build specified by the path. <br><br>
 
         Unlike the paths in Sources so is the path here allowed to be relative         and absolute, and it follows the semantics of that of the underlying         operating system. However, the "current path" for evaluating the path is         always the directory of the build specification. <br><br>
@@ -96,5 +96,4 @@ In the rest of the document the goals guiding the design of the build systems ar
 <pre>{
    "Sources":["foo/bar"],
    "SubBuilds":{"foo":"../NewBuild.json"}
-}</pre><h2 id="" style = "text-align: center;">4 </h2><br>
-</div></body></html>
+}</pre></div></div></body></html>

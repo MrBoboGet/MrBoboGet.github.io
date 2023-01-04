@@ -1,0 +1,140 @@
+<!DOCTYPE html><html><head><style>body{background-color: black; color: #00FF00;}</style></head><body><div style="display: flex"><div style="width: 30%; display: inline-block"><details open=""><summary><a href="../index.html">/</a></summary><ul><li><a href="../index.html" >index.mbd</a></li><li><details><summary><a href="../MBCC/index.html">MBCC</a></summary><ul><li><a href="../MBCC/index.html" >index.mbd</a></li><li><a href="../MBCC/CLI.html" >CLI.mbd</a></li><li><a href="../MBCC/History.html" >History.mbd</a></li></ul></details></li><li><details><summary><a href="../MBDoc/index.html">MBDoc</a></summary><ul><li><a href="../MBDoc/index.html" >index.mbd</a></li><li><a href="../MBDoc/History.html" >History.mbd</a></li><li><a href="../MBDoc/BuildPipeline.html" >BuildPipeline.mbd</a></li><li><a href="../MBDoc/Building.html" >Building.mbd</a></li><li><a href="../MBDoc/Format.html" >Format.mbd</a></li><li><a href="../MBDoc/Attributes.html" >Attributes.mbd</a></li><li><a href="../MBDoc/LinkResolving.html" >LinkResolving.mbd</a></li><li><a href="../MBDoc/CodeIndex.html" >CodeIndex.mbd</a></li><li><a href="../MBDoc/CLI.html" >CLI.mbd</a></li><li><details><summary><a href="../MBDoc/Compiler/index.html">Compiler</a></summary><ul><li><a href="../MBDoc/Compiler/index.html" >index.mbd</a></li></ul></details></li></ul></details></li><li><details open=""><summary><a href="index.html">MBPacketManager</a></summary><ul><li><a href="index.html" >index.mbd</a></li><li><a href="CLI.html" >CLI.mbd</a></li><li><a href="DevelopmentStructure.html" >DevelopmentStructure.mbd</a></li><li><a href="Packets.html" >Packets.mbd</a></li><li><a href="PacketsSpecification.html" >PacketsSpecification.mbd</a></li><li><a href="SubPackets.html" >SubPackets.mbd</a></li><li><mark><a href="" >Extensions.mbd</a></mark></li><li><a href="Terminology.html" >Terminology.mbd</a></li><li><a href="History.html" >History.mbd</a></li><li><details><summary><a href="MBBuild/index.html">MBBuild</a></summary><ul><li><a href="MBBuild/index.html" >index.mbd</a></li><li><a href="MBBuild/History.html" >History.mbd</a></li><li><a href="MBBuild/Buildsystem.html" >Buildsystem.mbd</a></li><li><a href="MBBuild/MBCompileConfigurations.html" >MBCompileConfigurations.mbd</a></li><li><a href="MBBuild/MBDependancySpecification.html" >MBDependancySpecification.mbd</a></li><li><a href="MBBuild/MBSourceInfo.html" >MBSourceInfo.mbd</a></li><li><a href="MBBuild/CLI.html" >CLI.mbd</a></li></ul></details></li></ul></details></li></ul></details></div><div style="width: 80ch; display: inline-block; position: absolute; top: 0; left: 0; right: 0; bottom: 0; margin: auto;"><h1 style="text-align: center;">Extensions</h1>
+mbpm was originally designed only with the explicit goal of being able to compile C++ on different machines. But as more features were added to the program, I realised that using different packet managers for different programs is at bit uneccesary. The current philosophy of is that the packet manager should be able to extended to support arbitrary kind of packets. This document describes how these extensions mechanisms are integreated in the use of mbpm, the design philosophy for the extensions mechanisms and assumption of it's use, aswell as of to create your own extensions. <br><br>
+
+<h1 id="Design" style = "text-align: center;">1 Design</h1><br>
+    This part documents the design goals with which the implementation is based     upon. This means that this part isn't strictly neccessary to use the     program, but may be helpful in order to understand why it works as it does,     and how to think about the behaviour expected of the program. <br><br>
+
+<h2 id="Extension mechanisms design philosophy" >1.1 Extension mechanisms design philosophy</h2><br>
+<h3 id="Seamless integration" >1.1.1 Seamless integration</h3><br>
+            Extensions should not be something that requires a lot of             boilerplate when invoking the program, nor should it be something             that interferes with default behaviour of the program.  One             shouldn't neccesraily be aware that a specific command is handled by             an extension, and one should not be detered of using extensions by             the hassle to set it up / fear of it chaning previous behaviour. <br><br>
+
+<h3 id="Uniform syntax and behaviour" >1.1.2 Uniform syntax and behaviour</h3><br>
+            One of the most difficult parts of designing a good extension system             is the trade-off allowing extensions the ability to modify any kind             of behavior in any way they want, and with keeping the behaviour             familiar and consistent across the program. <br><br>
+
+            Having too weak extension mechanisms makes the functionality the             extensions can execute limited, to liberal and few assumptions can             be made about the programs behaviour, and to much functionality is             bound to all of the internals of the program, making it hard to             maintain. <br><br>
+
+            The goal here is not to give the most powerful extensions system,             and instead focuses on exposing functionality that is common with             the operations of the program. Extensions are supposed to work like             the builting commands. This means that the functionality of             extensinos are completely uniform.  <br><br>
+
+            In order to also make the integration seamless, and the behaviour             predictably, so should the extensions also employ the same CLI             syntax as the program uses itself. <br><br>
+
+<h3 id="Remove extension implementation boilerplate" >1.1.3 Remove extension implementation boilerplate</h3><br>
+            Extensions should be easy to write, and common functionality should             not have to be duplicated for every extensions that is created. <br><br>
+
+<h3 id="Vectorisation" >1.1.4 Vectorisation</h3><br>
+            The <a href="#" style="color: red;">packet specification</a> is in many ways             the core of mbpm. This is how the program is mostly used, and what             allows it to efficiently handle multiple packets at the same time.             It is also one of the parts of the program that can benefit all             extensions simultaneously when new features are added, which means             that we want as many extensions as possible to use this             functionality in order to both make the behaviour in line with the             default, and to maximize how much they gain from development of the             main program. <br><br>
+
+<h1 id="Extension functionality design philosophy" style = "text-align: center;">2 Extension functionality design philosophy</h1><br>
+        The builtins of mbpm should provide the means for packet managment that         is the same for every type of packet no matter it's contents, which for         example include creating dependancy graphs, downloading and uploading         packets, removing packets etc etc. <br><br>
+
+        However, in order to make mbpm as general as possible, <i>every single         action</i> that requires interpreting the contents of the packet should be         implemented as an extensions. Compiling for example is solely         implemented by <a href="MBBuild/index.html">MBBuild</a>. <br><br>
+
+<h2 id="Builtin extensions are just as any other extension" >2.1 Builtin extensions are just as any other extension</h2><br>
+            While the distinction between an extension and regular behavior of             the program is pretty muddy when the extensions are a part of the             main program, so is it still important to make it clear which             operations are addons to the infrastructure, both in order to test             the capabilities of the extension system, and to make it clear what             is not a part of the extensions system. <br><br>
+
+<h2 id="Configuration location is uniform" >2.2 Configuration location is uniform</h2><br>
+            In order to make extensions easy to integrate, and in order to make             them easy to export and copy to another computer, so             should the configuration for the extensions be stored in an uniform             way, but they do not neccesrialy have to have a common configuration             format.  <br><br>
+
+<h1 id="The extension mechanisms" style = "text-align: center;">3 The extension mechanisms</h1><br>
+    The exact way an extensions is implemented and interfaces with the program     is dependant on the codebase, so this part describes what the extensions     mechanisms are supposed to offer through a slightly higher level     perspective, and works more as specifcition for which the exact interface is     designed agaisnt. How extensions are implemented can be found at      <a href="#" style="color: red;">creating an extension</a>. <br><br>
+
+<h2 id="Vectorized handling" >3.1 Vectorized handling</h2><br>
+        These kind of extensions add some sort of functionality that vectorised         over all packets in a <a href="#" style="color: red;">packet specification</a>.         They all support the builtin          <a href="CLI.html#IterationOptions">iteration options</a>, and the default          <a href="#" style="color: red;">packet specification</a>. Any flag or option         that isn't interpreted by these 2 parts are passed on to the extension,         and conversely any flag or optino interpreted by these 2 steps are <i>not</i>         given to the extension. <br><br>
+
+        This is ment to ensure that a packet doesn't override default behaviour,         and that the flags interpreted by the extensions doesn't have unintended         sideffects.  <br><br>
+
+        New commands are accepted as valid as extensions registers handler for         them, so they need not exist before the extensions handles them.         However, a top command apperaing that isn't handled by any extension are         treated as a fatal error. <br><br>
+
+        All vectorization option specify which          <a href="Packets.html#Type">types of packets</a> they handle. Packets which aren't         being handled by an extension is silently skipped,          <a href="CLI.html#CustomCommand">unless overriden</a>. <br><br>
+
+<h3 id="Top command handling" >3.1.1 Top command handling</h3><br>
+            mbpm {OverridenTopCommand} &lt;PacketSpecification&gt; &lt;IterationOptions&gt;             [Options] <br><br>
+
+            This kind of extensions override the meaning of the top command for             every packet in the packet list, and specifies the top command it             overrides, aswell as the valid packet types it handles.  <br><br>
+
+            Whenever the overriden top command is encountered in a command line             so is the <a href="#" style="color: red;">packet specification</a> first             evaluated, and any eventual errors termine the program at that             point. After that so are all packets in the packet list inspected             for their <a href="Packets.html#Type">packet type</a>, and if a an extension is             found that handles this type exists, so is the packet given this             packet as an argument to handle. <br><br>
+
+<h3 id="Sub command handling" >3.1.2 Sub command handling</h3><br>
+            mbpm {OverridenTopCommand} {OverridenSubCommand} &lt;PacketList&gt;             &lt;IterationOptions&gt; <br><br>
+
+            Sub command handling specifies a top command for which the command             is a subcommand of, and the subcommand this command handles. This             alters the parsing of the packet. The first command line argument is             the top command, and the next argument is interpreted as the             subcommand, which is therefore not a part of the packet             specification. It also specifies a which packets types it  <br><br>
+
+            Whenever the overriden top command is encountered in a command line             so is the first argument intepreted as specifying which subcomand              that should be invoked, and then             the <a href="#" style="color: red;">packet specification</a> is evaluated.             Any errors with creating the packet list is a fatal error and             terminates the program with a returnvalue &gt; 0.             After that so are all packets in the packet list inspected             for their <a href="Packets.html#Type">packet type</a>, and if a an extension is             found that handles this type and subcommand exists, so is the packet given this             packet as an argument to handle. <br><br>
+
+<mark>Note: </mark>            As sub command handling changes the way the packet specification is             evaluated, skipping the first argument, so can a top command only by             overriden as either a simplet top command, or a topcommand with             subcommands. Doing both results in a fatal error. However, a given             command can be overriden by multiple extensions as long as they use             the same type for their.  <br><br>
+
+<h2 id="Custom packet specification" >3.2 Custom packet specification</h2><br>
+        mbpm packspec {SubCommandName} [packespec options + arguments] '--'         &lt;VectorisedCommand&gt; ... <br><br>
+
+        Sometimes, the propety determining which packets should be affected by a         command is specific to it's individual semantic, and the default packet         behaviour isn't able to properly handle the query. All custom packets         specifications are all accessed through the special "packspec" top         command. <br><br>
+
+        The argument following the top command is what can be overriden by an         extension, and uniquely determines the extensions used to handle the         packet specification. The extension can specify which subcommand they         override, and multiple subcommands specifying the same subcommand is         treated as a fatal error.  <br><br>
+
+        In order to use these packets so are "--" used as a delimiter. The         string after "--" are interpreted as consisting of the parts of a         command line string after "mbpm" that makes up valid command. The set of         command that are able to appear here are limited however, as only the          vectorised command can appear here. That is, upload and update, aswell         as the custom commands.  <br><br>
+
+        The command specified can in turn contain a         <a href="#" style="color: red;">packet specification</a>. The difference is         execution is that the command specification from the packspec command is         the initial packet specificaton, and the         <a href="#" style="color: red;">simple packet specification</a> is appended to         this packet list, and the rest of the specification continues as normal. <br><br>
+
+        This means that the specfication can for example be filtered with         "-na:NonMBBuild" and similar. <br><br>
+
+<h3 id="builtin packspec" >3.2.1 builtin packspec</h3><br>
+            These are the builtin supported packspec subcommands. <br><br>
+
+<h4 id="shellpred" >3.2.1.1 shellpred</h4><br>
+                mbpm packspec shellpred [CommandString+] -- ... <br><br>
+
+                This packspec goes through every installed packet, invokes the                 shell command that is the concatenation of the CommandStrings                 and executes the command. If the returnvalue is 0 so is the                 packet included in the packet list, and not included if the                 returnvalue is different from 0. <br><br>
+
+<h3 id="Examples" >3.2.2 Examples</h3><br>
+<pre># This command goes through all "C++" packets and adds the packet to the list if
+# doesn't have any compiled version.
+
+mbpm packspec mbbuild_empty -- compile</pre><h2 id="Total command handling" >3.3 Total command handling</h2><br>
+        Total command hanling is where an extension can get the command line as         is. <br><br>
+
+        This is intended to support utility commands that by their nature cannot         be vectorized, and that deal with functionality specific to the         extensionss used. As the extension get the whole command line as is so         can it naturally implement whatever it wants, and in turn any form of         command can be added to mbpm. Extensions are however discouraged to add         functionality that could be a separate utility, and should only add         functionality that by itself doesn't make sense outside of the behaviour         of the extensions to mbpm. <br><br>
+
+<h1 id="Extension directory" style = "text-align: center;">4 Extension directory</h1><br>
+    All of the configurations of a extensions are assumed to be located in      "$MBPM_PACKETS_INSTALL_DIRECTORY/Extensions/{EXTENSION_NAME}/", and the     directory is given upon initializng an extension. Nothing can in practice     prevent and extension from reading configuration files from other parts of     the filesystem, but doing is discouraged. <br><br>
+
+<h1 id="Extension semantics" style = "text-align: center;">5 Extension semantics</h1><br>
+    While an extension has very little restrictions it can do, and packets have     very few restrictions how they can be constructed, so is there still a     expected behaviour that makes a packet type, and it's assoicated extensions     compliant with the mbpm system. <br><br>
+
+    This both includes what commands with a given name is expected to do, and     invariants the are to be preserved, aswell as how packets depend on each     other. <br><br>
+
+<h2 id="Packet Semantics" >5.1 Packet Semantics</h2><br>
+        The most important property of a packet is in some sense it's         dependancies, as these define exactly what is needed to transfer between         computers in order for the packet to work. However, the second most         important property, is exactly <i>how</i> the packet uses these dependancies.  <br><br>
+
+        The assumption made by mbpm, is that all packets on the local computer,         user and installed, depend on the installed packets. Take for example         how <a href="MBBuild/index.html">MBBuild</a> compiles C++. It uses the packet installed         directory as an additional include, and links against the compiled         versions in the install directory.  <br><br>
+
+        Another assumption made by mbpm is that a packet is <i>solely</i> dependant on         mbpm packets. This might seem obvious in one sense, that's the whole         point packet managment, but it also means that it should make no         assumption about the host computer in general. It should not need to         know what kind of filesystem it uses, posix or windows, or make any         assumptions about the directory structure of the computer. <br><br>
+
+        However, all packets being installed in the same directory also means         that many types of packets can't be supported. Take for example packets         which define config files for various programs, or different kind of         plugins. These kind of files are assumed to be at specific directories         on the computer, and can't be used if they only reside in the install         directory. This means that there has to be a way to make these files         usable to the rest of the computer, and preferably in a uniform way so         that the steps needed to use a packet isn't different for every         differernt kind of packet. <br><br>
+
+        //Better name?         This leads to the purpose of the <i>Semantic commands</i>. <br><br>
+
+<h3 id="Semantic commands" >5.1.1 Semantic commands</h3><br>
+            These are the commands that have predefined semantics by mbpm. These             commands are assumed to work a specific way by the program, and used             at during builtin operations if the command exist for the given             type.  <br><br>
+
+            They are expected to be implemented for every packet type. The             default implementation, that is to do nothing, can also be seen as             valid if nothing needs to be done, but then that behaviour is             assumed to be intended. This also means that commands with similar             properties should not be implemented for the packet type, in order             to make the behaviour conistent across packets. <br><br>
+
+<h4 id="export" >5.1.1.1 export</h4><br>
+                Export is the command that is responsible to make the packet                 usable outside of the mbpm system and to the rest of the                 computer.  <br><br>
+
+                The semantics of export is in some sense in opposition to other                 principles of the packet manager system. These assumption are                 that dependancies should only depend on the installed versions.                 But export goes against these assumptions, and is intended to                 provide an alternative way to make these packets usable for the                 rest of the system.  <br><br>
+
+                An example of a export command used is with <a href="MBBuild/index.html">MBBuild</a>.                 The exportation of a C++ packet for example means that all of                 it's executables and libraries are symlinked to from a                 predetermined directory, which can for example be added to the                 path. This kind of exportation means the the program can be                 usable by the shell, and that other buildsystems can link to the                 libraries. <br><br>
+
+<h4 id="retract" >5.1.1.2 retract</h4><br>
+                This is the opposite of export, and should revert any actions                 made by the export command.  <br><br>
+
+                This command is used on each packet that is to be removed by the                  remove command, and it's <a href="SubPackets.html">sub packets</a>, with                 no arguments or flags. It is not invoked if it isn't                 implemented for the packet type, and it is not treated as an                 error. <br><br>
+
+                This behaviour is implemented in order to provide a consistent                 and uniform way to remove a packet. This also means that the                 expected behaviour of retract without any additional                 flags/options should be to retract as much as possible. <br><br>
+
+                The retract command should only fail given that the verify                 command fails. A fail to remove not existing should not be                 treated as an error, exported files being modified by the user                 is allowed behaviour. This means that the retract command should                 only fail in the cases where it cannot know which files to                 remove in the first place, which should be atleast a subset of                 those cases where the verify command fails.  <br><br>
+
+<h4 id="verify" >5.1.1.3 verify</h4><br>
+                Verify is a command intended to produce an error if the contents                 of the packet doesn't align with the type specific requirements. <br><br>
+
+                It is used if it exists before uploading a packet, and each of                 it it's <a href="SubPackets.html">sub packets</a>, and an error                 results in the upload failing and not being executed. This is                 intended to be used as a way to ensure that only valid packets                 are uploaded, in order to not break local or remote                 installations.  <br><br>
+
+</div></div></body></html>

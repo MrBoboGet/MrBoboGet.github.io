@@ -1,0 +1,67 @@
+<!DOCTYPE html><html><head><style>body{background-color: black; color: #00FF00;}</style></head><body><div style="display: flex"><div style="width: 30%; display: inline-block"><details open=""><summary><a href="../../index.html">/</a></summary><ul><li><a href="../../index.html" >index.mbd</a></li><li><details><summary><a href="../../MBCC/index.html">MBCC</a></summary><ul><li><a href="../../MBCC/index.html" >index.mbd</a></li><li><a href="../../MBCC/CLI.html" >CLI.mbd</a></li><li><a href="../../MBCC/History.html" >History.mbd</a></li></ul></details></li><li><details><summary><a href="../../MBDoc/index.html">MBDoc</a></summary><ul><li><a href="../../MBDoc/index.html" >index.mbd</a></li><li><a href="../../MBDoc/History.html" >History.mbd</a></li><li><a href="../../MBDoc/BuildPipeline.html" >BuildPipeline.mbd</a></li><li><a href="../../MBDoc/Building.html" >Building.mbd</a></li><li><a href="../../MBDoc/Format.html" >Format.mbd</a></li><li><a href="../../MBDoc/Attributes.html" >Attributes.mbd</a></li><li><a href="../../MBDoc/LinkResolving.html" >LinkResolving.mbd</a></li><li><a href="../../MBDoc/CodeIndex.html" >CodeIndex.mbd</a></li><li><a href="../../MBDoc/CLI.html" >CLI.mbd</a></li><li><details><summary><a href="../../MBDoc/Compiler/index.html">Compiler</a></summary><ul><li><a href="../../MBDoc/Compiler/index.html" >index.mbd</a></li></ul></details></li></ul></details></li><li><details open=""><summary><a href="../index.html">MBPacketManager</a></summary><ul><li><a href="../index.html" >index.mbd</a></li><li><a href="../CLI.html" >CLI.mbd</a></li><li><a href="../DevelopmentStructure.html" >DevelopmentStructure.mbd</a></li><li><a href="../Packets.html" >Packets.mbd</a></li><li><a href="../PacketsSpecification.html" >PacketsSpecification.mbd</a></li><li><a href="../SubPackets.html" >SubPackets.mbd</a></li><li><a href="../Extensions.html" >Extensions.mbd</a></li><li><a href="../Terminology.html" >Terminology.mbd</a></li><li><a href="../History.html" >History.mbd</a></li><li><details open=""><summary><a href="index.html">MBBuild</a></summary><ul><li><a href="index.html" >index.mbd</a></li><li><a href="History.html" >History.mbd</a></li><li><a href="Buildsystem.html" >Buildsystem.mbd</a></li><li><a href="MBCompileConfigurations.html" >MBCompileConfigurations.mbd</a></li><li><a href="MBDependancySpecification.html" >MBDependancySpecification.mbd</a></li><li><mark><a href="" >MBSourceInfo.mbd</a></mark></li><li><a href="CLI.html" >CLI.mbd</a></li></ul></details></li></ul></details></li></ul></details></div><div style="width: 80ch; display: inline-block; position: absolute; top: 0; left: 0; right: 0; bottom: 0; margin: auto;"><h1 style="text-align: center;">MBSourceInfo</h1>
+MBSourceInfo.json is the file that is used to describe the build process.  The contents and semantics are meant to modell the build process  described in <a href="Buildsystem.html">buildsystem</a>. <br><br>
+
+The MBSourceInfo.json file is the default name used by <a href="index.html">mbbuild</a>,  and the name used when looking for a valid build specification. This document describes the contents if the file and it's meaning.  <br><br>
+
+The file is unlike other buildsystems completely declerative and with a completely uniform and common structure. The file is meant to <i>specify</i> what the packet contains and what is needed to compile the targets, but not describe how this is done. The specification is meant to be minimal and ideally interoperable between different programs. As the build specification is meant too be able to  describe the build for sources for different languages, with semantics mapable to C/C++ build requirements, so are the exact behaviour of the fields dependant on the <a href="#Langauge">language</a> that is used. However, as the specification is also meant to not only be descriptive but also standardize the build process, so are the semantics and behaviour needed to compile the sources for a specific build specification and language described in <a href="#" style="color: red;">the document describing the build process</a>. <br><br>
+
+<h1 id="Fields" style = "text-align: center;">1 Fields</h1><br>
+    A build specification is written in JSON format, and has to consist of a     single JSON object. This object contains a couple of mandatory fields that     need to be included, aswell as optional fields that may be included. A     mandatory field not being included is treated as an error, and parsing     specification fails. All of the optional fields has a specfied default     value. A field with a fieldname that isn't recognized as a mandatory or     optional field is silently ignored. <br><br>
+
+<h2 id="Mandatory fields" >1.1 Mandatory fields</h2><br>
+<h3 id="Langauge" >1.1.1 Langauge</h3><br>
+            This field must be a JSON string. <br><br>
+
+            This field specifies which language the sources are written in, and             is used in              <a href="MBCompileConfigurations.html">determining an appropriate compiler</a>. <br><br>
+
+<h3 id="Standard" >1.1.2 Standard</h3><br>
+            This field must a JSON string. <br><br>
+
+            This field is read by the compiler and used to set the compiler             specific flags needed to ensure that a compilation abides by the             standard.  <br><br>
+
+            The valid values this flag can take are determined by the             <a href="#Langauge">language</a> of the sources, and encountering and invalid             standard upon compiling the sources immidiately ends the compilation             process with an error. <br><br>
+
+<h4 id="Targets" >1.1.2.1 Targets</h4><br>
+            This field has to be a JSON object consisting of JSON objects, on             the form of a <a href="#Target">target</a>. The field names are the names of             the specific target. <br><br>
+
+<h5 id="Target" >1.1.2.1.1 Target</h5><br>
+                A target is the ultimate result of a compilation, and can either                 form an executable or static library, dynamic library etc. <br><br>
+
+                A target consists of a couple of mandatory fields, and optional                 fields. A mandatory field not being included results in an error                 in parsing the while build specification. Optional fields all                 have specified default values, and field names which aren't                 the name of a mandatory field or optional field is ignored. <br><br>
+
+<h6 id="Mandatory fields" >1.1.2.1.1.1 Mandatory fields</h6><br>
+<h7 id="TargetType" >1.1.2.1.1.1.1 TargetType</h7><br>
+                        The value of this field must be a string. <br><br>
+
+                        This field describes the specific type of output the                         source files are intended to generate, and can therefore                         take a limited set of valid values. An invalid value                         results in an error of parsing the whole build                         specification. These values are however depndant on the                         specified <a href="#Langauge">language</a>.  <br><br>
+
+                        Valid values for C/C++ for example are "Executable", and                         "Library". <br><br>
+
+<h7 id="OutputName" >1.1.2.1.1.1.2 OutputName</h7><br>
+                        This field must be a JSON string, forming a valid                         <a href="#" style="color: red;">singular filename</a>. <br><br>
+
+                        This field determines the name of the resulting file                         when creating this target. However, the filename isn't                         guaranteed to be exactly the OutputName, and the build                         process might for example append ".exe" to the filename. <br><br>
+
+                        This is meant to provide a way to create platform                         idiomatic names, such as "lib"+OutputName+".a" for                         static libraries on <i>nix systems. Another result of this                         is that multiple targets can have the same OutputName,                         as long as their </i><i><a href="#TargetType">TargetType</a></i><i> results in                         different filenames, which is for example guranteed for                         "Library" and "Executable" when compiling C/C++ code                         with mbpm. </i><br><br>
+
+<h7 id="Sources" >1.1.2.1.1.1.3 Sources</h7><br>
+                        This field must a JSON array consisting only of JSON                         strings. <br><br>
+
+                        This field consists of the filenames of the sources used                         in the compilation for the specific target, and                         specifies these filenames as an                          <a href="../Terminology.html#Absolute packet path">absolute packet path</a>. <br><br>
+
+                        A source not being included in the packet during                         compilation isn't necessarily immediately identified as                         an error, and depending on the compiler some compilation                         may still be executed, but the compilation as a whole                         will result in an error if a missing source file is                         encountered. <br><br>
+
+<h3 id="Dependancies" >1.1.3 Dependancies</h3><br>
+            This field specify which <a href="../Packets.html">packets</a> the             compilation of the sources depend on. <br><br>
+
+            This should be mostly the same the dependancies of the packet, but             doesn't have to. Exactly how these dependancies affect the build             system is dependant on the specific language, but for example C++ it             is used to determine which libraries have to be linked, and             additional include directories that need to be included, exactly how             this affects the build system for the different languages be found             <a href="#" style="color: red;">here</a>. <br><br>
+
+<h2 id="Optional fields" >1.2 Optional fields</h2><br>
+<h3 id="ExtraIncludes" >1.2.1 ExtraIncludes</h3><br>
+            This fields has to be a JSON array of JSON strings. The default             value is an empty array. <br><br>
+
+            This field is only relevant for languages where "include directory"             is defined, and is made to work with include directories in C++.             This adds the specified include directories when compiling the             sources. The include directories MUST be a              <a href="../Terminology.html#Absolute packet path">absolute packet path</a>,             meaning that only include directories in the packet can be included,             and no extra system include directories can be specified. <br><br>
+
+<mark>Note: </mark>            These include directories <i>are not</i> exported, meaning that             compilations using this library do not have to in turn add these             include directories. This can instead be specified in the              <a href="../Packets.html#MBPM_PacketInfo">packet TypeInfo field</a>,              exactly what fields can be included here for the purpose of MBBuild             can be read about <a href="#" style="color: red;">here</a>. However, using             this functionality is highly discouraged. <br><br>
+
+</div></div></body></html>

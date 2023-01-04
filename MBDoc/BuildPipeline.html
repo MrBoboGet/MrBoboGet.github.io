@@ -1,17 +1,17 @@
-<!DOCTYPE html><html><head><style>body{background-color: black; color: #00FF00;}</style></head><body><div style="width: 50%;margin: auto"><h1 style="text-align: center;">The Build Pipeline</h1>
+<!DOCTYPE html><html><head><style>body{background-color: black; color: #00FF00;}</style></head><body><div style="display: flex"><div style="width: 30%; display: inline-block"><details open=""><summary><a href="../index.html">/</a></summary><ul><li><a href="../index.html" >index.mbd</a></li><li><details><summary><a href="../MBCC/index.html">MBCC</a></summary><ul><li><a href="../MBCC/index.html" >index.mbd</a></li><li><a href="../MBCC/CLI.html" >CLI.mbd</a></li><li><a href="../MBCC/History.html" >History.mbd</a></li></ul></details></li><li><details open=""><summary><a href="index.html">MBDoc</a></summary><ul><li><a href="index.html" >index.mbd</a></li><li><a href="History.html" >History.mbd</a></li><li><mark><a href="" >BuildPipeline.mbd</a></mark></li><li><a href="Building.html" >Building.mbd</a></li><li><a href="Format.html" >Format.mbd</a></li><li><a href="Attributes.html" >Attributes.mbd</a></li><li><a href="LinkResolving.html" >LinkResolving.mbd</a></li><li><a href="CodeIndex.html" >CodeIndex.mbd</a></li><li><a href="CLI.html" >CLI.mbd</a></li><li><details><summary><a href="Compiler/index.html">Compiler</a></summary><ul><li><a href="Compiler/index.html" >index.mbd</a></li></ul></details></li></ul></details></li><li><details><summary><a href="../MBPacketManager/index.html">MBPacketManager</a></summary><ul><li><a href="../MBPacketManager/index.html" >index.mbd</a></li><li><a href="../MBPacketManager/CLI.html" >CLI.mbd</a></li><li><a href="../MBPacketManager/DevelopmentStructure.html" >DevelopmentStructure.mbd</a></li><li><a href="../MBPacketManager/Packets.html" >Packets.mbd</a></li><li><a href="../MBPacketManager/PacketsSpecification.html" >PacketsSpecification.mbd</a></li><li><a href="../MBPacketManager/SubPackets.html" >SubPackets.mbd</a></li><li><a href="../MBPacketManager/Extensions.html" >Extensions.mbd</a></li><li><a href="../MBPacketManager/Terminology.html" >Terminology.mbd</a></li><li><a href="../MBPacketManager/History.html" >History.mbd</a></li><li><details><summary><a href="../MBPacketManager/MBBuild/index.html">MBBuild</a></summary><ul><li><a href="../MBPacketManager/MBBuild/index.html" >index.mbd</a></li><li><a href="../MBPacketManager/MBBuild/History.html" >History.mbd</a></li><li><a href="../MBPacketManager/MBBuild/Buildsystem.html" >Buildsystem.mbd</a></li><li><a href="../MBPacketManager/MBBuild/MBCompileConfigurations.html" >MBCompileConfigurations.mbd</a></li><li><a href="../MBPacketManager/MBBuild/MBDependancySpecification.html" >MBDependancySpecification.mbd</a></li><li><a href="../MBPacketManager/MBBuild/MBSourceInfo.html" >MBSourceInfo.mbd</a></li><li><a href="../MBPacketManager/MBBuild/CLI.html" >CLI.mbd</a></li></ul></details></li></ul></details></li></ul></details></div><div style="width: 80ch; display: inline-block; position: absolute; top: 0; left: 0; right: 0; bottom: 0; margin: auto;"><h1 style="text-align: center;">The Build Pipeline</h1>
 When creating documents from source files so are there a couple of distinct steps that form a pipeline. While these individual steps are not strictly neccessary to understand in order to use the program, so are they neccessary to understand if one wants to configure an individual part of the build process or want to understand how references are resolved. <br><br>
 
 In this document the pipeline for compiling a build is described, and how the individual parts of the process can be customized. While it describes the functionality that the implementation is ment to provide, so doesn't it actually describe the implementantation. An overview of the implementation can be find <a href="CodeIndex.html">here</a>. <br><br>
 
-<h2 id="The pipeline" style = "text-align: center;">1 The pipeline</h2><br>
-<h3 id="Build specification" >1.1 Build specification</h3><br>
+<h1 id="The pipeline" style = "text-align: center;">1 The pipeline</h1><br>
+<h2 id="Build specification" >1.1 Build specification</h2><br>
         The first part of any build, is of course to specify what is a part of         the build in the first place. <br><br>
 
         This part isn't intrinsically connected to the          <a href="Building.html">builtin build specification</a>, the builtin specification         is however intentionally designed to be as close to the way builds are         specified in the CLI as possible. <br><br>
 
-        The result of the build specification is always the construction of d         <a href="">The Document Filesystem</a>. <br><br>
+        The result of the build specification is always the construction of d         <a href="#The Document Filesystem">The Document Filesystem</a>. <br><br>
 
-<h4 id="The Document Filesystem" >1.1.1 The Document Filesystem</h4><br>
+<h3 id="The Document Filesystem" >1.1.1 The Document Filesystem</h3><br>
             The Document Filesystem is a "filesystem" that resides solely in             memory, and represents the complete structure of a build. The             purpose of <a href="Building.html">build files</a> is solely to specify how             this filesystem is created. <br><br>
 
             The filesystem follows the semantics of the POSIX filesystem very             closely, but in a very simplified form. The filesystem has exactly 2             kind of objects, directories and files. All filesystem objects have             a name, and belongs to a directory. The contents of a directory is             a combination of other directories and files. The contents of file             is the parsed source following the              <a href="Format.html">mbd markup language</a>. <br><br>
@@ -22,42 +22,42 @@ In this document the pipeline for compiling a build is described, and how the in
 
         As the document filesystem contains parsed sources, so is the parsing of         source files naturally a substep in creating this filesystem, and isn't         a distinct part of the pipeline <br><br>
 
-<h3 id="Preprocessing and Parsing" >1.2 Preprocessing and Parsing</h3><br>
+<h2 id="Preprocessing and Parsing" >1.2 Preprocessing and Parsing</h2><br>
             Parsing of a source files in turn consist of 2 different disjunct             steps, the Preprocessing and then parsing. <br><br>
 
-<h4 id="Preprocessing" >1.2.1 Preprocessing</h4><br>
+<h3 id="Preprocessing" >1.2.1 Preprocessing</h3><br>
                 The preprocessing is completely lexical, and in some sense even                 more barebones compared to a C/C++ preprocessor as it                 inserts/replaces text as is, tokens aren't recognized and                 interpreted. <br><br>
 
                 The complete specification of the preprocessor can be found                 <a href="#" style="color: red;">here</a>. <br><br>
 
-<h4 id="Parsing" >1.2.2 Parsing</h4><br>
+<h3 id="Parsing" >1.2.2 Parsing</h3><br>
                 After preprocessing so is the final text then parsed. The                 semantics and syntax of a valid mbd file is described                 <a href="Format.html">here</a>. How these are in turn represented                 programatically, and in turn for the compiler, can be read about                 in the <a href="CodeIndex.html">code index</a>. <br><br>
 
-<h3 id="Compilation" >1.3 Compilation</h3><br>
+<h2 id="Compilation" >1.3 Compilation</h2><br>
         This is the part where the actual output is generated, and where most of         the user specified options apply.  <br><br>
 
         In order to compile a program so are there 2 mandatory things that need         to be determined, the output format and the output semantic. <br><br>
 
-<h4 id="Formats" >1.3.1 Formats</h4><br>
+<h3 id="Formats" >1.3.1 Formats</h3><br>
             The result of compilation is always a file in some kind of file             format. What file format is outputted has to be specified, and is             the format option. <br><br>
 
             Example of possible formats are pdf, markdown, html. <br><br>
 
             The only propery a format is guaranteed to provide, is that             documents with different semantics are linkable  together, which             means that references can correctly refer to other documents of the             same output format. <br><br>
 
-<h4 id="Semantics" >1.3.2 Semantics</h4><br>
+<h3 id="Semantics" >1.3.2 Semantics</h3><br>
             A semantic is in some ways the most important option for deciding             how the final output looks. While a format describes in what way             it's viewable and what kind of graphical options is supports, so             doesn't it specify the look, that's the semantics purpose. <br><br>
 
             The assumption made here, which is further described in the              <a href="History.html">motivation for this project</a>, is that the way a             document looks can be determined irrespective of it's contents. The             most important part of writing documentation is not meticoulus             control of how the output looks, but rather the content, and that             the resulting document is uniformly structured and rendered.  <br><br>
 
             This is also the main difference between MBDoc and regular markup             langauge's, very little control of the structure and the way the             format looks is given to the actual markup langauge and moved to the             semantic. <br><br>
 
-        In software so is a compiler determined by the output format and         semantic, which recieves as argument the          <a href="">document filesystem</a>, and compiler specific         options given on the command line. <br><br>
+        In software so is a compiler determined by the output format and         semantic, which recieves as argument the          <a href="#The Document Filesystem">document filesystem</a>, and compiler specific         options given on the command line. <br><br>
 
         While the document filesystem might give a very natural output structure         for the document so is it compiler defined how the output is generated,         only guaranteed that the content of all sources are present and linkable. <br><br>
 
         But consider for example the situation where the output format is a pdf.         Outputting one pdf for all the sources might not make very much sense or         be especially convenient, and all sourcess might be combined into one         document. But for HTML outputting a directory where the files link to         each other through relative paths might more convenient.  <br><br>
 
-        The documentation for the formats supported inately by the application         can be found <a href="Compilers/index.html">here</a>. <br><br>
+        The documentation for the formats supported inately by the application         can be found <a href="#" style="color: red;">here</a>. <br><br>
 
-</div></body></html>
+</div></div></body></html>

@@ -1,4 +1,21 @@
-<!DOCTYPE html><html><head><style>body{background-color: black; color: #00FF00;}</style></head><body><div style="width: 50%;margin: auto"><h2 id="Temp Temp mbbuild info test test" style = "text-align: center;">1 Temp Temp mbbuild info test test</h2><br>
-asdasdasd asd asd asd asd sadasd  <br><br>
+<!DOCTYPE html><html><head><style>body{background-color: black; color: #00FF00;}</style></head><body><div style="display: flex"><div style="width: 30%; display: inline-block"><details open=""><summary><a href="../index.html">/</a></summary><ul><li><a href="../index.html" >index.mbd</a></li><li><details open=""><summary><a href="index.html">MBBuild</a></summary><ul><li><mark><a href="" >index.mbd</a></mark></li></ul></details></li><li><details><summary><a href="../MBDoc/index.html">MBDoc</a></summary><ul><li><a href="../MBDoc/Attributes.html" >Attributes.mbd</a></li><li><a href="../MBDoc/BuildPipeline.html" >BuildPipeline.mbd</a></li><li><a href="../MBDoc/Building.html" >Building.mbd</a></li><li><a href="../MBDoc/CLI.html" >CLI.mbd</a></li><li><a href="../MBDoc/CodeIndex.html" >CodeIndex.mbd</a></li><li><a href="../MBDoc/Format.html" >Format.mbd</a></li><li><a href="../MBDoc/History.html" >History.mbd</a></li><li><a href="../MBDoc/LinkResolving.html" >LinkResolving.mbd</a></li><li><a href="../MBDoc/index.html" >index.mbd</a></li><li><details><summary><a href="../MBDoc/Compilers/index.html">Compilers</a></summary><ul><li><a href="../MBDoc/Compilers/index.html" >index.mbd</a></li></ul></details></li></ul></details></li><li><details><summary><a href="../MBPacketManager/index.html">MBPacketManager</a></summary><ul><li><a href="../MBPacketManager/CLI.html" >CLI.mbd</a></li><li><a href="../MBPacketManager/DevelopmentStructure.html" >DevelopmentStructure.mbd</a></li><li><a href="../MBPacketManager/History.html" >History.mbd</a></li><li><a href="../MBPacketManager/Packets.html" >Packets.mbd</a></li><li><a href="../MBPacketManager/PacketsSpecification.html" >PacketsSpecification.mbd</a></li><li><a href="../MBPacketManager/Terminology.html" >Terminology.mbd</a></li><li><a href="../MBPacketManager/index.html" >index.mbd</a></li></ul></details></li></ul></details></div><div style="width: 80ch; display: inline-block; position: absolute; top: 0; left: 0; right: 0; bottom: 0; margin: auto;"><h1 style="text-align: center;">MBBuild</h1>
+MBBuild is a build system and command line application for compiling C/C++ code, but perhaps more importantly is a set of design principles for how build systems should be constructed.  <br><br>
 
-</div></body></html>
+MBBuild can also be seen both as a sibling and subproject of  <a href="../MBPacketManager/index.html">MBPacketManager</a>, both aim at solving a related problem and are constructed for interoperability, and MBPacketManager is dependant on MBBuild, but MBBuild should also be usable as a separate command line utility.  <br><br>
+
+MBBuild consist mainly of 3 parts, the build system file format, the command line utility, and the design philosophy behind it all.  <br><br>
+
+<h2 id="History and philosophy" style = "text-align: center;">1 History and philosophy</h2><br>
+    In the <a href="#" style="color: red;">history</a> document so can both the background and     motivation for the project and the design goals and principles be found. <br><br>
+
+    This document isn't strictly neccessary to understand how to use the     program, but understanding the principles behind the program might help in     getting an intuition for why things are as they are.  <br><br>
+
+<h2 id="Build system" style = "text-align: center;">2 Build system</h2><br>
+    The structure of the build system specification and it's semantics is     described <a href="#" style="color: red;">here</a>.  <br><br>
+
+    This document is a prerequisite in order to use the program, and describes     most of the functionality the utility provides. <br><br>
+
+<h2 id="CLI" style = "text-align: center;">3 CLI</h2><br>
+    The command line interface and how the program is actually invoked is     described <a href="#" style="color: red;">here</a>. This document doesn't however describe any of     the terminology or concepts used, and assumes that the user has read      <a href="#" style="color: red;">about the buildsystem</a>. <br><br>
+
+</div></div></body></html>

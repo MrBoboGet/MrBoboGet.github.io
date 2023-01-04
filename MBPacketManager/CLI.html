@@ -1,0 +1,162 @@
+<!DOCTYPE html><html><head><style>body{background-color: black; color: #00FF00;}</style></head><body><div style="display: flex"><div style="width: 30%; display: inline-block"><details open=""><summary><a href="../index.html">/</a></summary><ul><li><a href="../index.html" >index.mbd</a></li><li><details><summary><a href="../MBCC/index.html">MBCC</a></summary><ul><li><a href="../MBCC/index.html" >index.mbd</a></li><li><a href="../MBCC/CLI.html" >CLI.mbd</a></li><li><a href="../MBCC/History.html" >History.mbd</a></li></ul></details></li><li><details><summary><a href="../MBDoc/index.html">MBDoc</a></summary><ul><li><a href="../MBDoc/index.html" >index.mbd</a></li><li><a href="../MBDoc/History.html" >History.mbd</a></li><li><a href="../MBDoc/BuildPipeline.html" >BuildPipeline.mbd</a></li><li><a href="../MBDoc/Building.html" >Building.mbd</a></li><li><a href="../MBDoc/Format.html" >Format.mbd</a></li><li><a href="../MBDoc/Attributes.html" >Attributes.mbd</a></li><li><a href="../MBDoc/LinkResolving.html" >LinkResolving.mbd</a></li><li><a href="../MBDoc/CodeIndex.html" >CodeIndex.mbd</a></li><li><a href="../MBDoc/CLI.html" >CLI.mbd</a></li><li><details><summary><a href="../MBDoc/Compiler/index.html">Compiler</a></summary><ul><li><a href="../MBDoc/Compiler/index.html" >index.mbd</a></li></ul></details></li></ul></details></li><li><details open=""><summary><a href="index.html">MBPacketManager</a></summary><ul><li><a href="index.html" >index.mbd</a></li><li><mark><a href="" >CLI.mbd</a></mark></li><li><a href="DevelopmentStructure.html" >DevelopmentStructure.mbd</a></li><li><a href="Packets.html" >Packets.mbd</a></li><li><a href="PacketsSpecification.html" >PacketsSpecification.mbd</a></li><li><a href="SubPackets.html" >SubPackets.mbd</a></li><li><a href="Extensions.html" >Extensions.mbd</a></li><li><a href="Terminology.html" >Terminology.mbd</a></li><li><a href="History.html" >History.mbd</a></li><li><details><summary><a href="MBBuild/index.html">MBBuild</a></summary><ul><li><a href="MBBuild/index.html" >index.mbd</a></li><li><a href="MBBuild/History.html" >History.mbd</a></li><li><a href="MBBuild/Buildsystem.html" >Buildsystem.mbd</a></li><li><a href="MBBuild/MBCompileConfigurations.html" >MBCompileConfigurations.mbd</a></li><li><a href="MBBuild/MBDependancySpecification.html" >MBDependancySpecification.mbd</a></li><li><a href="MBBuild/MBSourceInfo.html" >MBSourceInfo.mbd</a></li><li><a href="MBBuild/CLI.html" >CLI.mbd</a></li></ul></details></li></ul></details></li></ul></details></div><div style="width: 80ch; display: inline-block; position: absolute; top: 0; left: 0; right: 0; bottom: 0; margin: auto;"><h1 style="text-align: center;">CLI</h1>
+generic invocation <br><br>
+
+mbpm &lt;top command&gt; [&lt;sub command&gt;] &lt;PacketSpecification&gt; [&lt;options&gt;\*] <br><br>
+
+Here the command line interace for MBPacketManager is described, and conventions used. <br><br>
+
+<h1 id="Invocation structure" style = "text-align: center;">1 Invocation structure</h1><br>
+    Every invocation of consists of "top command". The top command is the first     string after the executable name that isn't a     <a href="#" style="color: red;">flag</a>, or a      <a href="#" style="color: red;">single argument option</a>     . The top command specifies the kind of operation to perform, and some top     commands have further subcommands that need to be specified. <br><br>
+
+<h2 id="Examples" >1.1 Examples</h2><br>
+<pre># Here install is the top command
+mbpm install MBUtility
+# Here create is the top command, and compilecommands is the subcommand
+mbpm create compilecommands --alluser</pre>    If a command has a subcommand so has this to be the first      <a href="#" style="color: red;">argument</a> appearing after the top     command. <br><br>
+
+<h1 id="Option classes" style = "text-align: center;">2 Option classes</h1><br>
+    Multiple commands share a common set of options, the most prominent being     the <a href="#" style="color: red;">packet specification</a>, but there are also     common options that apply to other parts of the program, which are listed     here. A command supporting this kind of option has "&lt;OptionCategory&gt;" in     it's command syntax. <br><br>
+
+<h1 id="IterationOptions" style = "text-align: center;">3 IterationOptions</h1><br>
+        These options deal with the vetorisation of commands. <br><br>
+
+<h2 id="lags" >3.1 lags</h2><br>
+<h3 id="continue-error" >3.1.1 continue-error</h3><br>
+            Specifies wheter or not a command should continue to try to process             other packets when the command failed for an earlier packet. The             default behaviour is to exit with a result &gt; 0 if a command fails             for a packet, but supplying this option makes the program process             the other packets aswell, displaying what packets failed at the end.             A single packet failing results in an exit &gt; 0. <br><br>
+
+<h1 id="RemotePolicy" style = "text-align: center;">4 RemotePolicy</h1><br>
+        These flags/options determine the way the program interacts with the         remote's. The most important/commonly used option is with which         <a href="#" style="color: red;">computer info</a> the packet indexes are accessed. The         default value for the computer info is different for the different         builtin commands, for example install uses the local computer info,         while remote uses the blank computer info as default. <br><br>
+
+<h2 id="Flags" >4.1 Flags</h2><br>
+<h3 id="nocomputerdiff" >4.1.1 nocomputerdiff</h3><br>
+                Specifies that remote packtets are accessed through a blank                  <a href="#" style="color: red;">computer info</a>, meaning that it's content is the                 same for every computer. <br><br>
+
+                While no restrictions can be enforced for the different packet                 types, so is it assumed that every file that isn't a part of the                 computerdiff can be generated from the generic files, and packets                 should provide all functionality in their generic form, which is for                 example the case for C++ packets follwing the <a href="MBBuild/index.html">MBBuild</a>                  system. <br><br>
+
+<h3 id="computerdiff" >4.1.2 computerdiff</h3><br>
+               Specifies that remote packets should be accesed with the local                computers specification, exactly what this consist of and how they                are determined can be read about at                 <a href="#" style="color: red;">computer diff</a>. <br><br>
+
+               This means that the contents of the index can vary from computer to                computer, and can for example be used to provide prebuilt binaries. <br><br>
+
+<h1 id="Commands" style = "text-align: center;">5 Commands</h1><br>
+<h2 id="install" >5.1 install</h2><br>
+        mbpm install PacketName\* &lt;RemoteOptions&gt; <br><br>
+
+        The command tasked with downloading a packet from a remote, along with         all of it's required dependancies, and stores them under the         "MBPM_PACKETS_INSTALL_DIRECTORY" environment variable. <br><br>
+
+        The default <a href="#" style="color: red;">computer diff</a> for this command is the         local machines computer diff. <br><br>
+
+<h2 id="update" >5.2 update</h2><br>
+        mbpm update &lt;PacketSpecification&gt; &lt;IterationOptions&gt; [&lt;UpdateOptions&gt;\*] <br><br>
+
+        The default <a href="#" style="color: red;">location type</a> for the          <a href="PacketsSpecification.html">packet specification</a> is installed. <br><br>
+
+        This command updates a packet to match the file structure on a         remote, and updates the <a href="#" style="color: red;">file index</a> in the directory to         match the new file structure. <br><br>
+
+        The default <a href="#" style="color: red;">computer diff</a> for this command is the         local machines computer diff. <br><br>
+
+<mark>Note: </mark>        If no fileindex file named MBPM_FileInfo is present in the packet         directory so is a new MBPM_FileInfo file created, and already present         MBPM_FileInfo files are overwritten. These files are used to keep track         of which files have been changed since the last update and to compare         with the remote index. <br><br>
+
+<mark>Note: </mark>        A remote packet or user packet appearing in the &lt;PacketsSpecification&gt;         is treated as a fatal error, meaning that no packets are updated. <br><br>
+
+<h2 id="Flags" >5.3 Flags</h2><br>
+<h3 id="allowuser" >5.3.1 allowuser</h3><br>
+                This flag make's it so that update can modify user packets.                  The default is to dissallow this in order to prevent accidentall                 loss of local modifications. <br><br>
+
+<h2 id="upload" >5.4 upload</h2><br>
+        mbpm update &lt;PacketsSpecification&gt; &lt;IterationOptions&gt; [&lt;UpdateOptions&gt;\*] <br><br>
+
+        The command that upload packets on the machine to a remote, or to the         local installation directory. The default           <a href="#" style="color: red;">location type</a> for the packets in the          <a href="PacketsSpecification.html">packet specification</a> is 'installed'. <br><br>
+
+        The command checks checks wheter or not a MBPM_FileInfo index file is         present in the packet directory, uses it to compare the last         modification time for the files present in the packet, and then         overrides it with the new info. A new index file is created named         MBPM_FileInfo if no MBPM_FileInfo index file is present or a invalid         file index is present. Only new files and files that differ from the         ones on the remote is uploaded. <br><br>
+
+        The default <a href="#" style="color: red;">computer diff</a> for this command is the         local machines computer diff. <br><br>
+
+<mark>Note: </mark>        Uploading multiple packets with the same name is treated as a fatal         error, and terminates the program right after resolving the          <a href="PacketsSpecification.html">packet specification</a>. This is because         uploading packets with the same name is in almost all cases an error,         as these uploads would overwrite each other. Remote packets appearing in         the packet list are also treated as a fatal error. <br><br>
+
+<h2 id="Flags" >5.5 Flags</h2><br>
+<h3 id="local" >5.5.1 local</h3><br>
+                This option makes it so that the command instead of uploading                 the packet  to the remote installs it on the local system. This                 follow the exact same semantics as downloading this packet                 through a remote with "mbpm install", except the source of the                 files/index are on the local machine. <br><br>
+
+<h2 id="Single argument options" >5.6 Single argument options</h2><br>
+<h3 id="f" >5.6.1 f</h3><br>
+                Specifies a specific file to upload instead of comparing the                 index's for the packet on the machine against the remote index. <br><br>
+
+                Specifying this option or <a href="#d">-d</a> makes it so that the upload                 only upload the file specified by the options                  <a href="#f">-f</a> and <a href="#d">-d</a>.  <br><br>
+
+<mark>Note: </mark>                Both <a href="#f">-f</a> and <a href="#d">-d</a> skips comparison against a local                 <a href="#" style="color: red;">MBPM_FileInfoIgnore</a>, which                 enables uploading files that are otherwise ignored by default,                 for example the dirctory "MBPM_Builds". <br><br>
+
+<h3 id="d" >5.6.2 d</h3><br>
+                Specifies a specific directory to upload instead of comparing the                 index for the packet on the machine against the remote index. <br><br>
+
+                Specifying this option or <a href="#f">-f</a> makes it so that the upload                 only upload the file's specified by the options                  <a href="#f">-f</a> and <a href="#d">-d</a>.  <br><br>
+
+<mark>Note: </mark>                Both <a href="#f">-f</a> and <a href="#d">-d</a> skips comparison against a local                 <a href="#" style="color: red;">MBPM_FileInfoIgnore</a>, which                 enables uploading files that are otherwise ignored by default,                 for example the dirctory "MBPM_Builds". <br><br>
+
+<h2 id="packets" >5.7 packets</h2><br>
+        mbpm packets &lt;PacketSpecification&gt; [&lt;PacketsOptions&gt;\*] <br><br>
+
+        Command used for visualising the result of a packet specification, and         to provides a way to access this list from for example bash scripts. <br><br>
+
+        The command prints the packet name, packet location type, and packet URI         for each packet in the <a href="PacketsSpecification.html">packet specification</a>         . <br><br>
+
+<h2 id="Flags" >5.8 Flags</h2><br>
+            Specifying no flags prints all of the parts, otherwise it prints              only parts specified bellow. <br><br>
+
+<h3 id="path" >5.8.1 path</h3><br>
+                For each packet, only print the path to the packet. Remote                 packets are skipped if this flag is present. <br><br>
+
+<h3 id="name" >5.8.2 name</h3><br>
+                For each packet, only print the name of the packet. <br><br>
+
+<h3 id="location" >5.8.3 location</h3><br>
+                For each packet, only print the location type of the packet.  <br><br>
+
+<h2 id="index" >5.9 index</h2><br>
+        mbpm index (create | diff | list | update) ...         &lt;IterationOptions&gt; <br><br>
+
+        All commands under the index top command deals with the manipulation and         visualisation of <a href="#" style="color: red;">file indexes</a>.  <br><br>
+
+<h3 id="create" >5.9.1 create</h3><br>
+            mbpm index create &lt;PacketsSpecification&gt; &lt;IterationOptions&gt;  <br><br>
+
+            Creates or overwrites MBPM_FileInfo with a index file describing the             file's in the packet directory.  <br><br>
+
+<h3 id="update" >5.9.2 update</h3><br>
+            mbpm index update &lt;PacketsSpecification&gt;             &lt;IterationOptions&gt; <br><br>
+
+            Updates and existing MBPM_FileInfo index or creates on if it doesn't             already exist in the packet directories.  <br><br>
+
+<h3 id="list" >5.9.3 list</h3><br>
+            mbpm index list &lt;SinglePacketSpecification&gt; ObjectToList="/"  <br><br>
+
+            Displays the content of MBPM_FileInfo index at the packet             specification. <br><br>
+
+            ObjectToList can be a file or directory, directories are displayed             recursivly, and it defaults to displaying the whole index, that is             to say the directory "/". <br><br>
+
+<h3 id="diff" >5.9.4 diff</h3><br>
+            mbpm index diff &lt;SinglePacketSpecification&gt; &lt;SinglePacketSpecification&gt; <br><br>
+
+            Display the difference between the MBPM_FileInfo indexes. The first             packet is interpreted to be the "local" packet and the second is the             "server" packet. The semantics for differences between file indexes             can be found <a href="#" style="color: red;">here</a>. <br><br>
+
+<h2 id="get" >5.10 get</h2><br>
+        mbpm get  &lt;SinglePacketSpecification&gt; &lt;AbsolutePacketPath&gt; &lt;RemoteOptions&gt; <br><br>
+
+        Downloads the given filesystem object specified by the         AbsolutePacketPath, a file or a whole directory, from the provided         packet. The downloaded object is placed in the same relative directory         structure for the current working directory. This means that downloading         for example "/foo/bar" would create the directory "foo" if it doesn't         already exist in the current working directory, and then creates a new         file that is then copied from the packet.  <br><br>
+
+        When downloading from a remote so is the empty computer diff used by         default. <br><br>
+
+<h2 id="CustomCommand" >5.11 CustomCommand</h2><br>
+        mbpm CommandName [SubCommand] &lt;PacketsSpecification&gt; &lt;IterationOptions&gt;         [CommandOptions] <br><br>
+
+        The custom commands are the extension mechanism of mbpm. The         compilation of C++ packets are for example done by a builtin          extension <a href="MBBuild/index.html">MBBuild</a>.  <br><br>
+
+        More about how extension work can be found <a href="Extensions.html">here</a>.         In short: Extensions can hook in the name of the command, and the type         of packet being processed. This means that for example the "compile"         command can be implemented by multiple extensions for different kind of         packets. <br><br>
+
+<h3 id="Flags" >5.11.1 Flags</h3><br>
+<h4 id="quit-no-extension" >5.11.1.1 quit-no-extension</h4><br>
+                The default behaviour when executing a command on a packet with                 no extension implementing the behaviour is to continue. This                 means commands like "compile" do their work on packets that                 define their behaviour, while also allowing packet                 specifications that add packets where the command should be                 ignored. <br><br>
+
+                Specifying this flag means that the program instead emits a                 fatal error when encountering a packet with no appropriate                 extension. <br><br>
+
+</div></div></body></html>

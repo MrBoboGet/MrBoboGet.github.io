@@ -1,26 +1,26 @@
-<!DOCTYPE html><html><head><style>body{background-color: black; color: #00FF00;}</style></head><body><div style="width: 50%;margin: auto"><h1 style="text-align: center;">MBDoc</h1>
+<!DOCTYPE html><html><head><style>body{background-color: black; color: #00FF00;}</style></head><body><div style="display: flex"><div style="width: 30%; display: inline-block"><details open=""><summary><a href="../index.html">/</a></summary><ul><li><a href="../index.html" >index.mbd</a></li><li><details><summary><a href="../MBCC/index.html">MBCC</a></summary><ul><li><a href="../MBCC/index.html" >index.mbd</a></li><li><a href="../MBCC/CLI.html" >CLI.mbd</a></li><li><a href="../MBCC/History.html" >History.mbd</a></li></ul></details></li><li><details open=""><summary><a href="index.html">MBDoc</a></summary><ul><li><mark><a href="" >index.mbd</a></mark></li><li><a href="History.html" >History.mbd</a></li><li><a href="BuildPipeline.html" >BuildPipeline.mbd</a></li><li><a href="Building.html" >Building.mbd</a></li><li><a href="Format.html" >Format.mbd</a></li><li><a href="Attributes.html" >Attributes.mbd</a></li><li><a href="LinkResolving.html" >LinkResolving.mbd</a></li><li><a href="CodeIndex.html" >CodeIndex.mbd</a></li><li><a href="CLI.html" >CLI.mbd</a></li><li><details><summary><a href="Compiler/index.html">Compiler</a></summary><ul><li><a href="Compiler/index.html" >index.mbd</a></li></ul></details></li></ul></details></li><li><details><summary><a href="../MBPacketManager/index.html">MBPacketManager</a></summary><ul><li><a href="../MBPacketManager/index.html" >index.mbd</a></li><li><a href="../MBPacketManager/CLI.html" >CLI.mbd</a></li><li><a href="../MBPacketManager/DevelopmentStructure.html" >DevelopmentStructure.mbd</a></li><li><a href="../MBPacketManager/Packets.html" >Packets.mbd</a></li><li><a href="../MBPacketManager/PacketsSpecification.html" >PacketsSpecification.mbd</a></li><li><a href="../MBPacketManager/SubPackets.html" >SubPackets.mbd</a></li><li><a href="../MBPacketManager/Extensions.html" >Extensions.mbd</a></li><li><a href="../MBPacketManager/Terminology.html" >Terminology.mbd</a></li><li><a href="../MBPacketManager/History.html" >History.mbd</a></li><li><details><summary><a href="../MBPacketManager/MBBuild/index.html">MBBuild</a></summary><ul><li><a href="../MBPacketManager/MBBuild/index.html" >index.mbd</a></li><li><a href="../MBPacketManager/MBBuild/History.html" >History.mbd</a></li><li><a href="../MBPacketManager/MBBuild/Buildsystem.html" >Buildsystem.mbd</a></li><li><a href="../MBPacketManager/MBBuild/MBCompileConfigurations.html" >MBCompileConfigurations.mbd</a></li><li><a href="../MBPacketManager/MBBuild/MBDependancySpecification.html" >MBDependancySpecification.mbd</a></li><li><a href="../MBPacketManager/MBBuild/MBSourceInfo.html" >MBSourceInfo.mbd</a></li><li><a href="../MBPacketManager/MBBuild/CLI.html" >CLI.mbd</a></li></ul></details></li></ul></details></li></ul></details></div><div style="width: 80ch; display: inline-block; position: absolute; top: 0; left: 0; right: 0; bottom: 0; margin: auto;"><h1 style="text-align: center;">MBDoc</h1>
 This is the documentation for MBDoc, a markup language + compilation process that creates documents in various formats, with a focus on making it easy to create documentation.  <br><br>
 
 The purpose of this document is to serve as an index towards the various parts covered by the documentation. <br><br>
 
-<h2 id="History and motivation" style = "text-align: center;">1 History and motivation</h2><br>
+<h1 id="History and motivation" style = "text-align: center;">1 History and motivation</h1><br>
     To get an introduction to what inspired this project in the first place,     and the overarching goals of the project, go <a href="History.html">here</a>.   <br><br>
 
     While this part is not strictly neccessary to understand the project, it     might help get an understanding of what kind of problems are ment to be     solved by it and what it's supposed/not supposed to do. <br><br>
 
-<h2 id="The build pipeline" style = "text-align: center;">2 The build pipeline</h2><br>
+<h1 id="The build pipeline" style = "text-align: center;">2 The build pipeline</h1><br>
     In order to undestand the different part that are done to complete a build,     go <a href="BuildPipeline.html">here</a>. It isn't neccesarrily required to create and     build documentation, but an understanding of it helps to explain the     different options used on the command line and how the individual parts of     the process can be tinkered with.  <br><br>
 
-<h2 id="The markup language" style = "text-align: center;">3 The markup language</h2><br>
+<h1 id="The markup language" style = "text-align: center;">3 The markup language</h1><br>
     To use the program, a prerequisite is atleast one source file compile, and     the documentation of the markup language can be found <a href="Format.html">here</a>. <br><br>
 
-<h2 id="Build files" style = "text-align: center;">4 Build files</h2><br>
+<h1 id="Build files" style = "text-align: center;">4 Build files</h1><br>
     The program can be used without build files, but they greatly speed up     development and helps organizing larger projects. The structure and syntax     of the build files can be found <a href="Building.html">Here</a>. <br><br>
 
-<h2 id="CLI" style = "text-align: center;">5 CLI</h2><br>
+<h1 id="CLI" style = "text-align: center;">5 CLI</h1><br>
     The documentation for the CLI is available <a href="CLI.html">here</a>. While it     documents the complete behaviour of the programs so doesn't it explain for     example the syntax of the markup language or build files. To get a complete     understanding of how to use the program, so are the previous parts needed. <br><br>
 
-<h2 id="The source code" style = "text-align: center;">6 The source code</h2><br>
+<h1 id="The source code" style = "text-align: center;">6 The source code</h1><br>
     The previous part document how the program can be used, but don't document     how it's implemented, and doesn't describe the API. In order to use the     project as a library and to extend on the source code, an overview of the     codebase can be found <a href="CodeIndex.html">here</a>.  <br><br>
 
-</div></body></html>
+</div></div></body></html>

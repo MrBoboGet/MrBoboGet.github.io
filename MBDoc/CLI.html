@@ -1,64 +1,64 @@
-<!DOCTYPE html><html><head><style>body{background-color: black; color: #00FF00;}</style></head><body><div style="width: 50%;margin: auto"><h1 style="text-align: center;">CLI</h1>
+<!DOCTYPE html><html><head><style>body{background-color: black; color: #00FF00;}</style></head><body><div style="display: flex"><div style="width: 30%; display: inline-block"><details open=""><summary><a href="../index.html">/</a></summary><ul><li><a href="../index.html" >index.mbd</a></li><li><details><summary><a href="../MBCC/index.html">MBCC</a></summary><ul><li><a href="../MBCC/index.html" >index.mbd</a></li><li><a href="../MBCC/CLI.html" >CLI.mbd</a></li><li><a href="../MBCC/History.html" >History.mbd</a></li></ul></details></li><li><details open=""><summary><a href="index.html">MBDoc</a></summary><ul><li><a href="index.html" >index.mbd</a></li><li><a href="History.html" >History.mbd</a></li><li><a href="BuildPipeline.html" >BuildPipeline.mbd</a></li><li><a href="Building.html" >Building.mbd</a></li><li><a href="Format.html" >Format.mbd</a></li><li><a href="Attributes.html" >Attributes.mbd</a></li><li><a href="LinkResolving.html" >LinkResolving.mbd</a></li><li><a href="CodeIndex.html" >CodeIndex.mbd</a></li><li><mark><a href="" >CLI.mbd</a></mark></li><li><details><summary><a href="Compiler/index.html">Compiler</a></summary><ul><li><a href="Compiler/index.html" >index.mbd</a></li></ul></details></li></ul></details></li><li><details><summary><a href="../MBPacketManager/index.html">MBPacketManager</a></summary><ul><li><a href="../MBPacketManager/index.html" >index.mbd</a></li><li><a href="../MBPacketManager/CLI.html" >CLI.mbd</a></li><li><a href="../MBPacketManager/DevelopmentStructure.html" >DevelopmentStructure.mbd</a></li><li><a href="../MBPacketManager/Packets.html" >Packets.mbd</a></li><li><a href="../MBPacketManager/PacketsSpecification.html" >PacketsSpecification.mbd</a></li><li><a href="../MBPacketManager/SubPackets.html" >SubPackets.mbd</a></li><li><a href="../MBPacketManager/Extensions.html" >Extensions.mbd</a></li><li><a href="../MBPacketManager/Terminology.html" >Terminology.mbd</a></li><li><a href="../MBPacketManager/History.html" >History.mbd</a></li><li><details><summary><a href="../MBPacketManager/MBBuild/index.html">MBBuild</a></summary><ul><li><a href="../MBPacketManager/MBBuild/index.html" >index.mbd</a></li><li><a href="../MBPacketManager/MBBuild/History.html" >History.mbd</a></li><li><a href="../MBPacketManager/MBBuild/Buildsystem.html" >Buildsystem.mbd</a></li><li><a href="../MBPacketManager/MBBuild/MBCompileConfigurations.html" >MBCompileConfigurations.mbd</a></li><li><a href="../MBPacketManager/MBBuild/MBDependancySpecification.html" >MBDependancySpecification.mbd</a></li><li><a href="../MBPacketManager/MBBuild/MBSourceInfo.html" >MBSourceInfo.mbd</a></li><li><a href="../MBPacketManager/MBBuild/CLI.html" >CLI.mbd</a></li></ul></details></li></ul></details></li></ul></details></div><div style="width: 80ch; display: inline-block; position: absolute; top: 0; left: 0; right: 0; bottom: 0; margin: auto;"><h1 style="text-align: center;">CLI</h1>
 This document describes the command line interface for MBDoc, how to use it to compile documents and how customize the process. <br><br>
 
 This document doesn't however all of the concepts or abstractions used in the process, so only reading this document might prove insufficient to effectivly use the program. However, this document will always refer to the appropriate documentation for these concept, so this document might still be used as an alternative index. <br><br>
 
-<h2 id="Arguments and options" style = "text-align: center;">1 Arguments and options</h2><br>
+<h1 id="Arguments and options" style = "text-align: center;">1 Arguments and options</h1><br>
     The arguments given to the program are divided up into 2 categories,     raw arguments, and options. The options are also further divided into Value     options and flags. Flags are only present in the command, and work by     modyfing behaviour in some binary way. Value options are options that also     have a value given to the option in the form of a string. An example of a     value options is the "o" option, which specifies the output directory, while     a flag option might be "--check-references", which makes the program     outputs which references are resolvable instead of compiling.  <br><br>
 
     All arguments given that start with "--" is interpreted as a flag, and all     arguments that are on the form "-{OptionName}:{Value}" are interpreted as     value options. All other arguments are given as raw arguments to the     program. <br><br>
 
     In order to pass specific options to the the compiler so it is the special      empty flag "--" used. All arguments and options after this flag are not     passed to the program, and are instead passed and parsed by the compiler     used for the compilation. This compile is uniquely determined by the format     and semantic. <br><br>
 
-<h2 id="Raw arguments" style = "text-align: center;">2 Raw arguments</h2><br>
+<h1 id="Raw arguments" style = "text-align: center;">2 Raw arguments</h1><br>
     All of the raw arguments given to the program are interpreted as files     included in the build. However, the nature of this files are by default     determined by their file extension. In order to include a file with a     specific meaning regardless of their file extension, use the appriopriate     command described bellow. <br><br>
 
-<h3 id="json" >2.1 json</h3><br>
+<h2 id="json" >2.1 json</h2><br>
         Files ending with .json are interpreted as <a href="Building.html">build files</a>,         which specifiy all of  the files and sub builds needed for a complete         build. <br><br>
 
-        As a build file already specifies a root for the          <a href="BuildPipeline.html">document filessystem</a>  so         is it not possible to specify any other files with a build, and doing so         is treated as a fatal error. <br><br>
+        As a build file already specifies a root for the          <a href="BuildPipeline.html#The Document Filesystem">document filessystem</a>  so         is it not possible to specify any other files with a build, and doing so         is treated as a fatal error. <br><br>
 
-        To specify a build file directly, use the <a href="">b</a> value  option. <br><br>
+        To specify a build file directly, use the <a href="#b">b</a> value  option. <br><br>
 
-<h3 id="mbd" >2.2 mbd</h3><br>
-        Files with mbd as a filextension are treated as a source file, with it's         relative path to the working directory as it's place relative to the         root in the          <a href="BuildPipeline.html">document filesystem</a>.  <br><br>
+<h2 id="mbd" >2.2 mbd</h2><br>
+        Files with mbd as a filextension are treated as a source file, with it's         relative path to the working directory as it's place relative to the         root in the          <a href="BuildPipeline.html#The Document Filesystem">document filesystem</a>.  <br><br>
 
-        To specify a source directly, use the <a href="">s</a> value option. <br><br>
+        To specify a source directly, use the <a href="#so">s</a> value option. <br><br>
 
-<h2 id="Flags" style = "text-align: center;">3 Flags</h2><br>
-<h2 id="check-references" style = "text-align: center;">4 check-references</h2><br>
+<h1 id="Flags" style = "text-align: center;">3 Flags</h1><br>
+<h2 id="check-references" >3.1 check-references</h2><br>
         Modifies the execution so that only references with regards to the         document filesystem are checked instead, and prints all of the         references that couldn't be resolved  and which source it belongs to.  <br><br>
 
         Compilers are allowed to add extra rules for resolving references <i>that         can't be resolved be the default way</i>, which means that this might make         more references unsolved than would present during actual compilation. <br><br>
 
-        If  the program is run with this option so is the inclusion of the         <a href="">/MBDoc/CLI.mbd</a> option or <a href="">/MBDoc/CLI.mbd</a> option <i>not</i> mandatory. <br><br>
+        If  the program is run with this option so is the inclusion of the         <a href="#f">#f</a> option or <a href="#o">#o</a> option <i>not</i> mandatory. <br><br>
 
-<h2 id="Value options" style = "text-align: center;">5 Value options</h2><br>
-<h3 id="f" >5.1 f</h3><br>
+<h1 id="Value options" style = "text-align: center;">4 Value options</h1><br>
+<h2 id="f" >4.1 f</h2><br>
         specifies the output format for the compilation. Current legal builtin         values are "html","md","rawterminal". Providing a format that isn't         supported is treated a fatal error and ends the process. <br><br>
 
-        More about formats and semantics can be found          <a href="BuildPipeline.html">here</a>. <br><br>
+        More about formats and semantics can be found          <a href="BuildPipeline.html#Formats">here</a>. <br><br>
 
-        Unless another flags overrides this, so is this option mandatory for any         compilation. <br><br>
+<mark>Note: </mark>        Unless another flags overrides this, so is this option mandatory for any         compilation. <br><br>
 
-<h3 id="o" >5.2 o</h3><br>
+<h2 id="o" >4.2 o</h2><br>
         Specifies the top directory of the ouput. While the exact structure of         the output is compiler dependant so is the output guaranteed to only         reside in the given directory. Providing a directory that doesn't exist         is treated as a fatal error, and ends the process. <br><br>
 
-        Unless another flags overrides this, so is this option mandatory for any         compilation. <br><br>
+<mark>Note: </mark>        Unless another flags overrides this, so is this option mandatory for any         compilation. <br><br>
 
-<h3 id="s" >5.3 s</h3><br>
+<h2 id="s" >4.3 s</h2><br>
         This specifies the semantic used for the compilation.  <br><br>
 
-        More about formats and semantics can be found          <a href="BuildPipeline.html">here</a>. <br><br>
+        More about formats and semantics can be found          <a href="BuildPipeline.html#Formats">here</a>. <br><br>
 
-        Unless another flags overrides this, so is this option mandatory for any         compilation. <br><br>
+<mark>Note: </mark>        Unless another flags overrides this, so is this option mandatory for any         compilation. <br><br>
 
-<h3 id="b" >5.4 b</h3><br>
+<h2 id="b" >4.4 b</h2><br>
         Specifies a build file to compile directly instead of relying on the         file extension. <br><br>
 
         Follows all of the same rules and semantics as specifying the build as a         raw argument, which means that no other source or build file may be         specified. <br><br>
 
-<h3 id="so" >5.5 so</h3><br>
+<h2 id="so" >4.5 so</h2><br>
         Adds a source file explicitly to the build without requiring the use of         correct file extensions. Has the exact same behaviour as specifying it         as a raw argument. <br><br>
 
-</div></body></html>
+</div></div></body></html>

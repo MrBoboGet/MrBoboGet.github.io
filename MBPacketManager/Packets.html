@@ -1,0 +1,125 @@
+<!DOCTYPE html><html><head><style>body{background-color: black; color: #00FF00;}</style></head><body><div style="display: flex"><div style="width: 30%; display: inline-block"><details open=""><summary><a href="../index.html">/</a></summary><ul><li><a href="../index.html" >index.mbd</a></li><li><details><summary><a href="../MBCC/index.html">MBCC</a></summary><ul><li><a href="../MBCC/index.html" >index.mbd</a></li><li><a href="../MBCC/CLI.html" >CLI.mbd</a></li><li><a href="../MBCC/History.html" >History.mbd</a></li></ul></details></li><li><details><summary><a href="../MBDoc/index.html">MBDoc</a></summary><ul><li><a href="../MBDoc/index.html" >index.mbd</a></li><li><a href="../MBDoc/History.html" >History.mbd</a></li><li><a href="../MBDoc/BuildPipeline.html" >BuildPipeline.mbd</a></li><li><a href="../MBDoc/Building.html" >Building.mbd</a></li><li><a href="../MBDoc/Format.html" >Format.mbd</a></li><li><a href="../MBDoc/Attributes.html" >Attributes.mbd</a></li><li><a href="../MBDoc/LinkResolving.html" >LinkResolving.mbd</a></li><li><a href="../MBDoc/CodeIndex.html" >CodeIndex.mbd</a></li><li><a href="../MBDoc/CLI.html" >CLI.mbd</a></li><li><details><summary><a href="../MBDoc/Compiler/index.html">Compiler</a></summary><ul><li><a href="../MBDoc/Compiler/index.html" >index.mbd</a></li></ul></details></li></ul></details></li><li><details open=""><summary><a href="index.html">MBPacketManager</a></summary><ul><li><a href="index.html" >index.mbd</a></li><li><a href="CLI.html" >CLI.mbd</a></li><li><a href="DevelopmentStructure.html" >DevelopmentStructure.mbd</a></li><li><mark><a href="" >Packets.mbd</a></mark></li><li><a href="PacketsSpecification.html" >PacketsSpecification.mbd</a></li><li><a href="SubPackets.html" >SubPackets.mbd</a></li><li><a href="Extensions.html" >Extensions.mbd</a></li><li><a href="Terminology.html" >Terminology.mbd</a></li><li><a href="History.html" >History.mbd</a></li><li><details><summary><a href="MBBuild/index.html">MBBuild</a></summary><ul><li><a href="MBBuild/index.html" >index.mbd</a></li><li><a href="MBBuild/History.html" >History.mbd</a></li><li><a href="MBBuild/Buildsystem.html" >Buildsystem.mbd</a></li><li><a href="MBBuild/MBCompileConfigurations.html" >MBCompileConfigurations.mbd</a></li><li><a href="MBBuild/MBDependancySpecification.html" >MBDependancySpecification.mbd</a></li><li><a href="MBBuild/MBSourceInfo.html" >MBSourceInfo.mbd</a></li><li><a href="MBBuild/CLI.html" >CLI.mbd</a></li></ul></details></li></ul></details></li></ul></details></div><div style="width: 80ch; display: inline-block; position: absolute; top: 0; left: 0; right: 0; bottom: 0; margin: auto;">Packets are the most fundamental part of MBPacketManager, and what makes the application do anything meaningfull. <br><br>
+
+This document describes how packets are created, the different kinds of packet on the system, and the meaning of MBPM_PacketInfo file that describes the packet, aswell as the design philosophy behind packets and the problems they are intended to solve. <br><br>
+
+<h1 id="Design philosophy" style = "text-align: center;">1 Design philosophy</h1><br>
+    Packets are designed to modularize functionality in some way, and to     make it easy to transfer between computers, aswell as keeping track of     exactly what this functionality depends on. <br><br>
+
+    MBPacketManager initially started as purely a way to separate C++ projects     into multiple libraries, but has since then evolved to support generic     packets.  <br><br>
+
+    In order to do this so is there a separation from the dependancy and package     management from the semantics of the package installed. <br><br>
+
+    But one of the main goals of this project, more of which can be found      <a href="History.html">here</a>, is to also make it easy to create packets yourself and     use locally. Packets shouldn't be a hassle to create and distribute and     utilize, that would remove half of the reason to use them in the first     place. This means that the structure of the packet is extremly free and few     things are mandated, which also ties in with the previous point in that     package managment should work for every type of packet.  <br><br>
+
+<h2 id="Complete portability" >1.1 Complete portability</h2><br>
+        mbpm isn't just designed to be a way to distribute packages between         computer, but more importantly a way use the functionality provided for         every computer. This means that packets should be designed to be         completely portable, with semantics that makes the usable for every kind         of computer. <br><br>
+
+        This for example means that it's not enough to just be able to         distribute a C++ packet in a compiled form, but that the packet has to         be compileable for an arbitrary computer. <br><br>
+
+<h2 id="No arbitrary code execution" >1.2 No arbitrary code execution</h2><br>
+        One of the most important principles, and one of the principles that         make the philosophy of mbpm different form other kind of packet         managers, is that the installation/usage of a packet MUST NOT use a         user provied script in order to be successfully installed.  <br><br>
+
+        Another purpose of packet managers is to modularize and make the         dependancies of projects more managable, but if the installation of a         packet that uses arbitrary scripts ever go wrong, so is the ability to         understand and fix the problem is severely limited by needing to         reverse engineer the installation process. <br><br>
+
+        It also makes the invariants and assumption made by mbpm harder to         enforce, and it also enforces implicit dependancies on the computer         in order to able to execute the scripts in question. <br><br>
+
+        The installation of a packet should be handled solely by an appropriate         <a href="Extensions.html">extension</a> in order to make the behaviour well         documented and reproducible, and to ensure that errors in the build         process are either easily identified, or centraly fixable. <br><br>
+
+<h2 id="Complete track of exported files" >1.3 Complete track of exported files</h2><br>
+        Some packet managers doesn't support true removal of a packet, because         these packet might create files that are outside of the location of the         directories managed by the packet manager, or because few restrictions         are placed on it's installation script.  <br><br>
+
+        Packets used by mbpm should always have complete knowledge about the         files they use on the system, so that removal of the packet doesn't         result in broken symlinks or superflous directories not being removed. <br><br>
+
+<h1 id="Packet structure and creating a packet" style = "text-align: center;">2 Packet structure and creating a packet</h1><br>
+    In order to create a packet so is exactly one thing needed: A valid     MBPM_PacketInfo file, it's content is      <a href="#MBPM_PacketInfo">described further down</a>. <br><br>
+
+    Every directory which contains a MBPM_PacketInfo is interpreted as a packet     directory for the purpose of <a href="#" style="color: red;">determining user packet</a>, and     for determining the <a href="#" style="color: red;">installed packets</a>. <br><br>
+
+    The content of a packet is simply a directory structure, all rooted under to     / directory of the packet, the directory containing the MBPM_PacketInfo.     This means that all packets contains atleast the file "/MBPM_PacketInfo".     While some different kind of packet type may have different restrictions to     how packet can be composed, so is it not something that is enforced during     the distribution, uploading and downloading, of packets. <br><br>
+
+    While there only is one file that is required to exist, so are there a     couple of files and directories that are assumed not to.  <br><br>
+
+    All files/directories with a name begining with "MBPM_" can be created,     removed, and modified by MBPacketManager, aswell as the special directory     ".mbpm". Having files in these directories as a part of the packet should     therefore be seen as undefined behaviour. <br><br>
+
+    There also exist a small set of special directories with semantics intended     with common semantics intended to be used by multiple packet types. <br><br>
+
+<h2 id="MBPM_Builds" >2.1 MBPM_Builds</h2><br>
+        This directory can optionally contain the compiled version of some         packet. For C/C++ projects so might this contain the compiled         executable or static library, and for documentation so can this be the         finished pdf etc. The exact semantics depends on the packet type. <br><br>
+
+<h3 id="C/C++" >2.1.1 C/C++</h3><br>
+            The directory contains a subdirectory for each build configuration,             which in turn contains the compiled version for a specific             configuration. The special directory "default" can be used to supply             a build that isn't specific to any compile configuration.             <a href="#" style="color: red;">Exporting</a> mbpm looks in the             <a href="#" style="color: red;">default export configuration</a>             for the <a href="#" style="color: red;">exported executables/library</a>, or             in the default directory if the default export configuration is not             present.  <br><br>
+
+            This means that the default directory can be used to reliable             distribute precompiled versions of a packet. However, it should be             noted that following the MBBuild standard for compilation is highly             encouraged. <br><br>
+
+<h2 id="MBPM_BuildFiles" >2.2 MBPM_BuildFiles</h2><br>
+        This directory contains the build files needed for building a specific         packet, and it's content like MBPM_Builds is highly dependant on the         packet type. This is it's use for the current builtin supported packet         types:  <br><br>
+
+<h3 id="C/C++" >2.2.1 C/C++</h3><br>
+            The build files for each configuration is stored in             "MBPM_BuildFiles/{ConfigurationName}", which includes the objects             produced during compilation, and MBBuildDependancyInfo, a file             listing the dependancies for each object and it's last compilation             time, used for determining which files needs to be compiled and             executables relinked for succesive compilations. <br><br>
+
+<h1 id="MBPM_PacketInfo" style = "text-align: center;">3 MBPM_PacketInfo</h1><br>
+    This is the most central configuration file in the project, the file     defining a packet. This configuration is a regular JSON file, the content     must be single JSON object containing only field describe here. There are a     couple of fields that are mandatory, which must be included, and omitting     them is treated as an error when parsing the file. Optional fields all have     well defined standard values. <br><br>
+
+<h2 id="Mandatory fields" >3.1 Mandatory fields</h2><br>
+<h3 id="PacketName" >3.1.1 PacketName</h3><br>
+            This field MUST be a string, describing the name of the packet. This             name should be unique in order to avoid clashes, but there are             ultimately no safegaurds against name's clashing. This field being             an empty string is also treated as an error. <br><br>
+
+<h3 id="Dependancies" >3.1.2 Dependancies</h3><br>
+            This field MUST be a list of strings, which are the names of the             packets this packet depend on. These dependancies are used for             example when installing a packet, and determining it's              <a href="Terminology.html#Packet depth">packet depth</a>. <br><br>
+
+<h2 id="Optional fields" >3.2 Optional fields</h2><br>
+<h3 id="Type" >3.2.1 Type</h3><br>
+            Packet type is one of the extension mechanisms for mbpm. While the             commands install,upload,update,get should all work for every packet type in             the same ways so are there commands which might differ, compile and             export being the prime examples. Types might also be used by             <a href="Extensions.html">extensions</a> to override default behaviour. <br><br>
+
+            The only commands which have different semantics depending on the             packet are compile and export. Both commands need to examine the             type of packet in order to determine what to do, compilation being             the command used for creating a executable or similar, while export             is tasked with making the result usable, both operations naturally             require specific information about the packet. <br><br>
+
+            The default value for Type is "C++". <br><br>
+
+<h3 id="TypeInfo" >3.2.2 TypeInfo</h3><br>
+            A JSON object which is used pass type specific info to MBPM, and             it's semantics is therefore dependant on the packet.  <br><br>
+
+            No matter the type of packet so should an empty TypeInfo always be a             valid value, and the default is also the empty json object.  <br><br>
+
+            Here the TypeData objects for the builtin types listed: <br><br>
+
+<h3 id="C/C++" >3.2.3 C/C++</h3><br>
+                A json object which might optionally contain the following                 fields <br><br>
+
+<h3 id="Fields" >3.2.4 Fields</h3><br>
+<h4 id="ExtraIncludeDirectories" >3.2.4.1 ExtraIncludeDirectories</h4><br>
+<h3 id="Attributes" >3.2.5 Attributes</h3><br>
+            This field field MUST be a list of strings.  <br><br>
+
+            Attributes are a way to add properties to a packet which can either             be interpreted directly by mbpm to modify how the packet is treated,             or as a way for the user to group packets and assign their own             semantic. They can for example be used in a              <a href="#" style="color: red;">packet specification</a> so sort for packets             with specific attributes. The default value for the attributes field             is an empty list. <br><br>
+
+            The default behaviour for mbpm for an attribute is to ignore it.             Attributes are also allowed to be given special meaning by             extensions, and may differ for different packet types. <br><br>
+
+            Here the attributes which are builtin recognised and acted upon by             mbpm listed: <br><br>
+
+<h4 id="NonMBBuild" >3.2.5.1 NonMBBuild</h4><br>
+                Emits a cringe warning when installing the packet. <br><br>
+
+<h1 id="Location types" style = "text-align: center;">4 Location types</h1><br>
+    Another concept used by mbpm is packet location. mbpm is designed to be able     to develop packages locally and replace the installed packet with these, and     to execute comands in a large amount of packets simultaneously. But this     means that there is a distinction among packet depending on where on the     system they are located, which is refered to as the location type. This     location type does however have no effect on the semantics or contents of     the packet. <br><br>
+
+    There are currently 4 different location types defined by mbpm, all of which     can be used in a <a href="#" style="color: red;">packet specification</a> in order     to select packets to execute commands on.  <br><br>
+
+    How these packets are searched for and determined is highly dependant on the      <a href="#" style="color: red;">installation</a>, and to get a complete picture of the     filesystem persistance so is a look at page recommended. How these things     relate to packets are also described here however. <br><br>
+
+<h2 id="Installed packet" >4.1 Installed packet</h2><br>
+        A installed packet is every packet which is under the         "MBPM_PACKETS_INSTALL_DIRECTORY" environemnt variable.   <br><br>
+
+        "MBPM_PACKETS_INSTALL_DIRECTORY" must point to a directory on the         filesystem, and it is in this directory that packets are placed when         installed by mbpm, and the directory name is the same as the packet         name. When determining wheter or not a installed packet with a given         name on the system exists, so is the first step to determine wheter or         not a directory with this packet name exists under         MBPM_PACKETS_INSTALL_DIRECTORY, and if it does, determine if it has a         valid MBPM_PacketInfo file with the same packet name. Any of these steps         being false means that the packet is not found, and considering as not         existing on the system. <br><br>
+
+        Installed packets have the semantics as being the packets all other         packets on the system depend on. A user packet migh be developed         separately from the installed packet, but that user packet in turn         depend only on installed packet. Exactly what this means naturally         depends on the packet type, for "C/C++" so is this related to how the         packets are built, all packets are linked only to the installed packets. <br><br>
+
+<h2 id="User packet" >4.2 User packet</h2><br>
+        The file $MBPM_PACKETS_INSTALL_DIRECTORY/UserDirectories.txt contains a         list of directires separated by a new line. Whenever a user packet with         a particular name is searched for, so is each every sub directory of         every directory in UserDirectories.txt examined, but not recursivly. If         a subdirectory contains a valid MBPM_PacketInfo file, with the packet         name searched for so is a match found, and otherwise it fails. <br><br>
+
+<h2 id="Local packet" >4.3 Local packet</h2><br>
+        A local packet is a packet which is not determined to be either a user         packet, or a installed packet. This location type is used during          <a href="#" style="color: red;">packet specification</a> when a path to a packet         is specified instead of a name.  <br><br>
+
+<h2 id="Remote packet" >4.4 Remote packet</h2><br>
+        A remote packet is a packet that is assumed to exist at a          <a href="#" style="color: red;">remote location</a>. They are identified by a name only,         and the location and protocol used to access this is  determined by the          <a href="#" style="color: red;">remote configuration</a>.  <br><br>
+
+</div></div></body></html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html><html><head><style>body{background-color: black; color: #00FF00;}</style></head><body><div style="display: flex"><div style="width: 30%; display: inline-block"><details open=""><summary><a href="../index.html">/</a></summary><ul><li><a href="../index.html" >index.mbd</a></li><li><details open=""><summary><a href="index.html">MBCC</a></summary><ul><li><a href="index.html" >index.mbd</a></li><li><mark><a href="" >CLI.mbd</a></mark></li><li><a href="History.html" >History.mbd</a></li></ul></details></li><li><details><summary><a href="../MBDoc/index.html">MBDoc</a></summary><ul><li><a href="../MBDoc/index.html" >index.mbd</a></li><li><a href="../MBDoc/History.html" >History.mbd</a></li><li><a href="../MBDoc/BuildPipeline.html" >BuildPipeline.mbd</a></li><li><a href="../MBDoc/Building.html" >Building.mbd</a></li><li><a href="../MBDoc/Format.html" >Format.mbd</a></li><li><a href="../MBDoc/Attributes.html" >Attributes.mbd</a></li><li><a href="../MBDoc/LinkResolving.html" >LinkResolving.mbd</a></li><li><a href="../MBDoc/CodeIndex.html" >CodeIndex.mbd</a></li><li><a href="../MBDoc/CLI.html" >CLI.mbd</a></li><li><details><summary><a href="../MBDoc/Compiler/index.html">Compiler</a></summary><ul><li><a href="../MBDoc/Compiler/index.html" >index.mbd</a></li></ul></details></li></ul></details></li><li><details><summary><a href="../MBPacketManager/index.html">MBPacketManager</a></summary><ul><li><a href="../MBPacketManager/index.html" >index.mbd</a></li><li><a href="../MBPacketManager/CLI.html" >CLI.mbd</a></li><li><a href="../MBPacketManager/DevelopmentStructure.html" >DevelopmentStructure.mbd</a></li><li><a href="../MBPacketManager/Packets.html" >Packets.mbd</a></li><li><a href="../MBPacketManager/PacketsSpecification.html" >PacketsSpecification.mbd</a></li><li><a href="../MBPacketManager/SubPackets.html" >SubPackets.mbd</a></li><li><a href="../MBPacketManager/Extensions.html" >Extensions.mbd</a></li><li><a href="../MBPacketManager/Terminology.html" >Terminology.mbd</a></li><li><a href="../MBPacketManager/History.html" >History.mbd</a></li><li><details><summary><a href="../MBPacketManager/MBBuild/index.html">MBBuild</a></summary><ul><li><a href="../MBPacketManager/MBBuild/index.html" >index.mbd</a></li><li><a href="../MBPacketManager/MBBuild/History.html" >History.mbd</a></li><li><a href="../MBPacketManager/MBBuild/Buildsystem.html" >Buildsystem.mbd</a></li><li><a href="../MBPacketManager/MBBuild/MBCompileConfigurations.html" >MBCompileConfigurations.mbd</a></li><li><a href="../MBPacketManager/MBBuild/MBDependancySpecification.html" >MBDependancySpecification.mbd</a></li><li><a href="../MBPacketManager/MBBuild/MBSourceInfo.html" >MBSourceInfo.mbd</a></li><li><a href="../MBPacketManager/MBBuild/CLI.html" >CLI.mbd</a></li></ul></details></li></ul></details></li></ul></details></div><div style="width: 80ch; display: inline-block; position: absolute; top: 0; left: 0; right: 0; bottom: 0; margin: auto;"><h1 style="text-align: center;">CLI</h1>
+This document describes the command line interface for the project.  Reading both about the <a href="#" style="color: red;">parser specification format</a> and  the semantics of the <a href="#" style="color: red;">backends</a> is most likely needed in order to understand what the commands are doing. <br><br>
+
+<h1 id="Overview" style = "text-align: center;">1 Overview</h1><br>
+    Invoking MBCC takes takes on 2 distinct forms, commands calculating     information about a grammar/parser specification, and commands that are     actually outputting the parser. <br><br>
+
+    There are however a couple of options that are common between these 2 modes. <br><br>
+
+    All invocations require a <a href="#" style="color: red;">parser specification file</a> to     operate, and is provided as the first argument.  <br><br>
+
+    Options that specify <a href="#Parser type options">the type of parser</a> are also     common, as they determine which kind of checks that should be made, aswell     as what kind of parser to create. <br><br>
+
+<h1 id="Parser type options" style = "text-align: center;">2 Parser type options</h1><br>
+    These options determine the properties of the outputted parser  <br><br>
+
+<h2 id="Argument options" >2.1 Argument options</h2><br>
+<h3 id="k" >2.1.1 k</h3><br>
+            Specifies how many tokens of lookahead that should be used when             creating a deterministic parser with fixed lookahead. The default             value is 1. <br><br>
+
+            Providing a string that can't be parsed as an positive integer             terminates the program with a failing exit status, and no files are             modified. <br><br>
+
+<h1 id="Invocations" style = "text-align: center;">3 Invocations</h1><br>
+    The invocations are separated by the inclusion of the "verify" flag. If this     flag is included, only verification is performed, and no output files need     to be provided. It also enables the inclusion of      <a href="#" style="color: red;">verification options</a>, which determine which kind     of checks should be performed. The exclusion of this flag instead invokes     the creation step, where verification options become invalid. <br><br>
+
+<h2 id="Verification" >3.1 Verification</h2><br>
+        mbcc --verify {ParseSpecificationFile} &lt;Parser type options&gt;<i>         &lt;Verification options&gt;</i> <br><br>
+
+<h2 id="Creation" >3.2 Creation</h2><br>
+        mbcc {ParseSpecificationFile} &lt;Parser type options&gt;<i> -h:{OutHeader}         -s:{OutSorce} -t:{TargetLangauge=c++} </i><br><br>
+
+        The exclusion of either the header,source, or parser specification file         or and invalid target language terminates the program with a failing         exit status, and no files are modified.  <br><br>
+
+        A invalid <a href="#" style="color: red;">parse specification</a> also terminates the program         with a fatal error, and no files are modified. <br><br>
+
+        If all files are provided, the program not being able to open the         output files for writing or the parser specification file for reading         also terminates the program with a fatal error. <br><br>
+
+        The grammar is then verified with the <a href="#" style="color: red;">default checks</a>         that are appropriate for the parser          as specified by the <a href="#Parser type options">parser type options</a>.          If the provided parser specification fails any of these checks, so is         the program terminated with a fatal error and no output files are         modified. <br><br>
+
+        After all of the previous mentioned steps are executed, the output files         are opened, and the parser is written. <br><br>
+
+</div></div></body></html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html><html><head><style>body{background-color: black; color: #00FF00;}</style></head><body><div style="display: flex"><div style="width: 30%; display: inline-block"><details open=""><summary><a href="../../index.html">/</a></summary><ul><li><a href="../../index.html" >index.mbd</a></li><li><details><summary><a href="../../MBCC/index.html">MBCC</a></summary><ul><li><a href="../../MBCC/index.html" >index.mbd</a></li><li><a href="../../MBCC/CLI.html" >CLI.mbd</a></li><li><a href="../../MBCC/History.html" >History.mbd</a></li></ul></details></li><li><details><summary><a href="../../MBDoc/index.html">MBDoc</a></summary><ul><li><a href="../../MBDoc/index.html" >index.mbd</a></li><li><a href="../../MBDoc/History.html" >History.mbd</a></li><li><a href="../../MBDoc/BuildPipeline.html" >BuildPipeline.mbd</a></li><li><a href="../../MBDoc/Building.html" >Building.mbd</a></li><li><a href="../../MBDoc/Format.html" >Format.mbd</a></li><li><a href="../../MBDoc/Attributes.html" >Attributes.mbd</a></li><li><a href="../../MBDoc/LinkResolving.html" >LinkResolving.mbd</a></li><li><a href="../../MBDoc/CodeIndex.html" >CodeIndex.mbd</a></li><li><a href="../../MBDoc/CLI.html" >CLI.mbd</a></li><li><details><summary><a href="../../MBDoc/Compiler/index.html">Compiler</a></summary><ul><li><a href="../../MBDoc/Compiler/index.html" >index.mbd</a></li></ul></details></li></ul></details></li><li><details open=""><summary><a href="../index.html">MBPacketManager</a></summary><ul><li><a href="../index.html" >index.mbd</a></li><li><a href="../CLI.html" >CLI.mbd</a></li><li><a href="../DevelopmentStructure.html" >DevelopmentStructure.mbd</a></li><li><a href="../Packets.html" >Packets.mbd</a></li><li><a href="../PacketsSpecification.html" >PacketsSpecification.mbd</a></li><li><a href="../SubPackets.html" >SubPackets.mbd</a></li><li><a href="../Extensions.html" >Extensions.mbd</a></li><li><a href="../Terminology.html" >Terminology.mbd</a></li><li><a href="../History.html" >History.mbd</a></li><li><details open=""><summary><a href="index.html">MBBuild</a></summary><ul><li><a href="index.html" >index.mbd</a></li><li><a href="History.html" >History.mbd</a></li><li><a href="Buildsystem.html" >Buildsystem.mbd</a></li><li><a href="MBCompileConfigurations.html" >MBCompileConfigurations.mbd</a></li><li><a href="MBDependancySpecification.html" >MBDependancySpecification.mbd</a></li><li><a href="MBSourceInfo.html" >MBSourceInfo.mbd</a></li><li><mark><a href="" >CLI.mbd</a></mark></li></ul></details></li></ul></details></li></ul></details></div><div style="width: 80ch; display: inline-block; position: absolute; top: 0; left: 0; right: 0; bottom: 0; margin: auto;"><h1 style="text-align: center;">CLI</h1>
+This part describes the way MBBuild hooks into the mbpm CLI. <br><br>
+
+MBBuild is an <a href="../Extensions.html">extension</a> to mbpm, and understanding how extensions are implemented and how the modify the behaviour of mbpm in needed in order to understand the meaning of this document. Here all of the different extensions mechanisms that MBBuild uses are described, and what they do. <br><br>
+
+<h1 id="Vectorized extensions" style = "text-align: center;">1 Vectorized extensions</h1><br>
+<h1 id="Top command extensions" style = "text-align: center;">2 Top command extensions</h1><br>
+<h2 id="export" >2.1 export</h2><br>
+            The export command is handled for packets that have the type              C or C++. <br><br>
+
+            When exporting a packet to handled by MBBuild, so is a valid              <a href="MBSourceInfo.html">MBSourceInfo.json</a> required. This file not             existing or being invalid results in an error exporting the packet. <br><br>
+
+            The <a href="MBSourceInfo.html">MBSourceInfo.json</a> is read, and unless             overriden by the <a href="#" style="color: red;">-c</a> option so is the               <a href="MBCompileConfigurations.html#DefaultExportConfig">default export configuration</a>              for the <a href="#" style="color: red;">language of the sources</a> the             configuration that is to be exported. <br><br>
+
+            For each target to be exported, it then checks for the existance for              "{PACKET_DIRECTORY}/MBPM_Builds/{COMPILE_CONFIGURATION_NAME}/{TARGET_NAME}",             and if the file exists, it either creates a symlink to it located in              "$MBPM_PACKETS_INSTALL_DIRECTORY/MBPM_ExportedExecutables/{TARGET_NAME}" or              "$MBPM_PACKETS_INSTALL_DIRECTORY/MBPM_CompiledLibraries/{TARGET_NAME}"             depending on if the target is a             <a href="Buildsystem.html#Libraries">library</a> or a             <a href="#" style="color: red;">executable</a>. <br><br>
+
+<mark>Note: </mark>            The target name is not neccessarily the exact name of the              <a href="MBSourceInfo.html#OutputName">OutputName</a> in the MBSourceInfo.json             file, as MBBuild automatically modifies the name depending on the             platform. It for example automatically adds .exe to executables on             windows, and "lib"+{OutputName}+".a/so" for libraries on POSIX             systems when creating the files, and the export command alters the             name of the files in the same way. <br><br>
+
+<h3 id="Single value options" >2.1.1 Single value options</h3><br>
+<h4 id="-c" >2.1.1.1 -c</h4><br>
+                    The value of this option is the compile configuration to                     export instead of the                     <a href="MBCompileConfigurations.html#DefaultExportConfig">default</a>. <br><br>
+
+                    As all packets are exported to the same loctation so can                     only one -c be in a export command, exporting multiple                     configurations would just override the previous one, and is                     therefore treated as an error. <br><br>
+
+<h4 id="-t" >2.1.1.2 -t</h4><br>
+                    Exports a specific <a href="MBSourceInfo.html#Target">target</a> instead of the default, which is                     to export all targets present in the                     <a href="MBSourceInfo.html">MBSourceInfo.json</a>. The name of the                     target is the name of target as given in the                     MBSourceInfo.json, and not the potentially modified name of the target                     on disk. <br><br>
+
+<h2 id="compile" >2.2 compile</h2><br>
+            The most fundamental command of MBBuild, the command that is             responsible for actually compiling the code, and the command that             involves the whole of the MBBuild extensions system.  <br><br>
+
+            In order to compile a packet so is a valid              <a href="MBSourceInfo.html">MBSourceInfo.json</a> needed in the top part of the             packets directory, that is it has the              <a href="../Terminology.html#Absolute packet path">absolute packet path</a> "/MBSourceInfo.json".             An invalid or missing MBSourceInfo.json immediately ends the command             with an error. <br><br>
+
+            Next, the program looks for a valid             <a href="MBCompileConfigurations.html">MBCompileConfigurations.json</a> in             MBBuild's              <a href="../Extensions.html#Extension directory">extension directory</a>.             An invalid or missing MBCompileConfigurations.json ends the             compilation process with an error. <br><br>
+
+            Upon parsing the MBCompileConfigurations.json so are the compile             configurations determined for the current compilation. If              <a href="#" style="color: red;">the -c option</a> is not specified so are the              <a href="MBCompileConfigurations.html#DefaultConfigs">default compile configurations</a>             used as the configurations to compile. Otherwise, all of             configurations given by the separate <a href="#" style="color: red;">-c options</a> are             compiled.  <br><br>
+
+            After having determined the name of the compile configurations to             compile, so is the             <a href="#" style="color: red;">language config</a> for             the <a href="#" style="color: red;">language</a> of the sources checked             for configs of the same names. If no language configuration exists             for the given language, or if the language configuration doesn't             have the compile configurations specified, so is the compilation             ended with an error. <br><br>
+
+            Now the program checks for the <a href="MBSourceInfo.html#Targets">targets</a>              to compile. If the <a href="#" style="color: red;">-t option</a> is not given, so are             all of the targets in the MBSourceInfo.json compiled, otherwise the             MBSourceInfo.json is searched for targets of the name specified by             the -t option. If a -t option specifies a target that doesn't exist             so is the compilation ended with an error. <br><br>
+
+            At this point, the targets to compile, and the configurations to             compile have both been determined, and now the              <a href="Buildsystem.html">buildsystem</a> is invoked. More about the exact             behaviour for how packets are build can be found              <a href="Buildsystem.html">at the buildsystem documentation</a>. <br><br>
+
+<h3 id="Flags" >2.2.1 Flags</h3><br>
+<h4 id="--rebuild" >2.2.1.1 --rebuild</h4><br>
+                    --rebuild makes it so that all of the sources and all of the                     targets are recompiled and relinked, instead of only                     affecting sources/targets deemed out of date by the                     serialzied dependancy info, and the updates the dependancy                     info accordingly. <br><br>
+
+<h3 id="Single value options" >2.2.2 Single value options</h3><br>
+<h4 id="-t" >2.2.2.1 -t</h4><br>
+                    The value of this option is the name of a target to compile. <br><br>
+
+                    Having this option appear on the command line makes it so                     that only targest which are specified by a -t optino are                     compiled, instead of using all of the targets in the                     <a href="MBSourceInfo.html">MBSourceInfo.json</a>. <br><br>
+
+<h4 id="-c" >2.2.2.2 -c</h4><br>
+                    The value of this option is the name of a                      <a href="MBCompileConfigurations.html#CompileConfiguration">compilation configuration</a>                     to compile. <br><br>
+
+                    This option appearing on the command line makes it so that                     only compile configurations specified by a -c option are                     compiled, instead of the                      <a href="MBCompileConfigurations.html#DefaultConfigs">default compile configurations</a>                     that would be used instead. <br><br>
+
+<h1 id="Sub command extensions" style = "text-align: center;">3 Sub command extensions</h1><br>
+<h2 id="create" >3.1 create</h2><br>
+            MBBuild extends the create command with files used by MBBuild,             aswell as creating files that allow other tools to work with the             same information, such as creating a CMakeLists.txt or makefile with             the same behaviour as the buildsystem used by MBBuild, or creating a             compile_commands.json with the same flags used by the buildsystem             that can be used by for example for IDE's. <br><br>
+
+            The following subcommands for create are defined by MBBuild for             packets of type C/C++. <br><br>
+
+<h3 id="makefile" >3.1.1 makefile</h3><br>
+                This sub command creates a makefile that is inteded to be able                 to compile the given packet, without the use of mbpm. This is                 intended to be human readable and editable. <br><br>
+
+<mark>Note: </mark>                The way the the makefile is constructed still makes use of the                 MBPM_PACKETS_INSTALL_DIRECTORY variables, which means that it                 still assumes the existance of a mbpm installation, without                 using the specific executable. This is inteded to make it so                 that it more closely follows the semantics of MBBuild. It can                 however be made to use "installed libraries", the way the are                 installed in a usual POSIX system. <br><br>
+
+<h3 id="--use-installed" >3.1.2 --use-installed</h3><br>
+                    Modify the creation of the cmake file so that it link to                     libraries that are "installed libraries" on a regular posix                     system, which in practice means that the link command                     linking the libraries is simply "-l:PACKET_NAME". <br><br>
+
+<h3 id="compile_commands.json" >3.1.3 compile_commands.json</h3><br>
+                This file creates a                 <a href="MBCompileConfigurations.html#DefaultConfigshttps://clang.llvm.org/docs/JSONCompilationDatabase.html">compile_commands.json</a>                 that defines all of the flags and options that are used to                 compile each source in the                 <a href="MBSourceInfo.html">MBSourceInfo.json</a>. The compile string used                 for each source are the exact string that MBBuild would use                 internally when compiling the source, with the exception that                 the assumed working directory might be different, and that                 options specifing the outputname of the file are omitted. <br><br>
+
+                This command requires that a valid <a href="MBSourceInfo.html">MBSourceInfo.json</a>                 has to exist in the packet directory, and that a valid                  <a href="MBCompileConfigurations.html#Global compile configuration">global compile configuration</a>                 exists, the command otherwise results in an error. <br><br>
+
+<h3 id="CMakeLists.txt" >3.1.4 CMakeLists.txt</h3><br>
+                This sub command has a similar purpose as                 <a href="#makefile">makefile</a>, in that it creates a another buildsystem                 intended to have similar semantics to the one used by MBBuild.                 Like the <a href="#makefile">makefile</a> so is this CMakeLists.txt still                 assuming that the libraries exist on a mbpm installation, that                 is to say the can be found at                 "$MBPM_PACKETS_INSTALL_DIRECTORY/{PacketName}", and the the                 compiled versions of the targets can be found at                  "$MBPM_PACKETS_INSTALL_DIRECTORY/{PacketName}/{COMPILE_CONFIGURATION_NAME}/{MODIFIED_TARGET_NAME}". <br><br>
+
+                It can like <a href="#makefile">makefile</a> be modified to instead use                 libraries that are "installed" on the system. <br><br>
+
+<h3 id="--use-installed" >3.1.5 --use-installed</h3><br>
+                    Modifies the created CMakeLists.txt to use packets that are                     "installed" on the system, accoring to CMake semantics. <br><br>
+
+<h1 id="Total command handling" style = "text-align: center;">4 Total command handling</h1><br>
+<h2 id="embedd" >4.1 embedd</h2><br>
+            This command generates sources and header files for a given input             file, that makes it so that the input file can be embedded in the             compiled program C/C++ program. <br><br>
+
+            It does this by creating a source file that defines a const char<i>             array with the contents of the input file and a size_t variable with             the size of the file, and a header file that             includes the const char</i> array as file size as externally defined             symbols. <br><br>
+
+            This command requires a binary file to embedd as the first argument,             and has 2 mandatory value options, "-o" which defines the name of             the ouput file, and "-v" that defines the name of the created             variable. <br><br>
+
+            All file names which are given to this command are looked up with             respect to the current working directory. <br><br>
+
+<h3 id="Mandatory value options" >4.1.1 Mandatory value options</h3><br>
+<h4 id="-o" >4.1.1.1 -o</h4><br>
+                    The value of this option is the base name of the created                     source and header file. The command then creates                     "{VALUE}.cpp", which has the definition of the const char<i>                     array and size_t size, answell as "{VALUE}.h" which is the                     header file that includes these definitions as external                     symbols. </i><br><br>
+
+<h4 id="-v" >4.1.1.2 -v</h4><br>
+                    The value of this option is the base for the variable names. The name of the                     included const char<i> array is "{VALUE}", and the name of the                     the size of the file is "{VALUE}_size". </i><br><br>
+
+</div></div></body></html>
