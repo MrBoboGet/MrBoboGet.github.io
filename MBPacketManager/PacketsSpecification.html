@@ -1,57 +1,57 @@
-<!DOCTYPE html><html><head><style>body{background-color: black; color: #00FF00;}</style></head><body><div style="display: flex"><div style="width: 30%; display: inline-block"><details open=""><summary><a href="../index.html">/</a></summary><ul><li><a href="../index.html" >index.mbd</a></li><li><details><summary><a href="../MBCC/index.html">MBCC</a></summary><ul><li><a href="../MBCC/index.html" >index.mbd</a></li><li><a href="../MBCC/CLI.html" >CLI.mbd</a></li><li><a href="../MBCC/History.html" >History.mbd</a></li></ul></details></li><li><details><summary><a href="../MBDoc/index.html">MBDoc</a></summary><ul><li><a href="../MBDoc/index.html" >index.mbd</a></li><li><a href="../MBDoc/History.html" >History.mbd</a></li><li><a href="../MBDoc/BuildPipeline.html" >BuildPipeline.mbd</a></li><li><a href="../MBDoc/Building.html" >Building.mbd</a></li><li><a href="../MBDoc/Format.html" >Format.mbd</a></li><li><a href="../MBDoc/Attributes.html" >Attributes.mbd</a></li><li><a href="../MBDoc/LinkResolving.html" >LinkResolving.mbd</a></li><li><a href="../MBDoc/CodeIndex.html" >CodeIndex.mbd</a></li><li><a href="../MBDoc/CLI.html" >CLI.mbd</a></li><li><details><summary><a href="../MBDoc/Compiler/index.html">Compiler</a></summary><ul><li><a href="../MBDoc/Compiler/index.html" >index.mbd</a></li></ul></details></li></ul></details></li><li><details open=""><summary><a href="index.html">MBPacketManager</a></summary><ul><li><a href="index.html" >index.mbd</a></li><li><a href="CLI.html" >CLI.mbd</a></li><li><a href="DevelopmentStructure.html" >DevelopmentStructure.mbd</a></li><li><a href="Packets.html" >Packets.mbd</a></li><li><mark><a href="" >PacketsSpecification.mbd</a></mark></li><li><a href="SubPackets.html" >SubPackets.mbd</a></li><li><a href="Extensions.html" >Extensions.mbd</a></li><li><a href="Terminology.html" >Terminology.mbd</a></li><li><a href="History.html" >History.mbd</a></li><li><details><summary><a href="MBBuild/index.html">MBBuild</a></summary><ul><li><a href="MBBuild/index.html" >index.mbd</a></li><li><a href="MBBuild/History.html" >History.mbd</a></li><li><a href="MBBuild/Buildsystem.html" >Buildsystem.mbd</a></li><li><a href="MBBuild/MBCompileConfigurations.html" >MBCompileConfigurations.mbd</a></li><li><a href="MBBuild/MBDependancySpecification.html" >MBDependancySpecification.mbd</a></li><li><a href="MBBuild/MBSourceInfo.html" >MBSourceInfo.mbd</a></li><li><a href="MBBuild/CLI.html" >CLI.mbd</a></li></ul></details></li></ul></details></li></ul></details></div><div style="width: 80ch; display: inline-block; position: absolute; top: 0; left: 0; right: 0; bottom: 0; margin: auto;"><h1 style="text-align: center;">Packets</h1>
-The most core part of mbpm's functionality is in the vectorisation of  commands over packets. Almost all commands work over multiple packets at the same time. This page describes the syntax and semantics of the "PacketSpecification" part of the command line of most packets. <br><br>
+<!DOCTYPE html><html><head><style>body{background-color: black; color: #00FF00;}table,th,td{border: 1px solid;}table{border-collapse: collapse;} .color .link{color: inherit !important;}</style></head><body><div style="display: flex"><div style="width: 30%; display: inline-block"><details open=""><summary><a href="../index.html">/</a></summary><ul><li><a href="../index.html" >index.mbd</a></li><li><details><summary><a href="../MBCC/index.html">MBCC</a></summary><ul><li><a href="../MBCC/index.html" >index.mbd</a></li><li><a href="../MBCC/CLI.html" >CLI.mbd</a></li><li><a href="../MBCC/History.html" >History.mbd</a></li></ul></details></li><li><details><summary><a href="../MBDoc/index.html">MBDoc</a></summary><ul><li><a href="../MBDoc/index.html" >index.mbd</a></li><li><a href="../MBDoc/History.html" >History.mbd</a></li><li><a href="../MBDoc/BuildPipeline.html" >BuildPipeline.mbd</a></li><li><a href="../MBDoc/Building.html" >Building.mbd</a></li><li><a href="../MBDoc/Format.html" >Format.mbd</a></li><li><a href="../MBDoc/Attributes.html" >Attributes.mbd</a></li><li><a href="../MBDoc/LinkResolving.html" >LinkResolving.mbd</a></li><li><a href="../MBDoc/CodeIndex.html" >CodeIndex.mbd</a></li><li><a href="../MBDoc/CLI.html" >CLI.mbd</a></li><li><a href="../MBDoc/LSP.html" >LSP.mbd</a></li><li><details><summary><a href="../MBDoc/Code/index.html">Code</a></summary><ul><li><details><summary><a href="../MBDoc/Code/Classes/index.html">Classes</a></summary><ul><li><a href="../MBDoc/Code/Classes/ArgumentList.html" >ArgumentList.mbd</a></li><li><a href="../MBDoc/Code/Classes/AttributeList.html" >AttributeList.mbd</a></li><li><a href="../MBDoc/Code/Classes/BlockElement.html" >BlockElement.mbd</a></li><li><a href="../MBDoc/Code/Classes/BlockVisitor.html" >BlockVisitor.mbd</a></li><li><a href="../MBDoc/Code/Classes/CodeBlock.html" >CodeBlock.mbd</a></li><li><a href="../MBDoc/Code/Classes/ColorConfiguration.html" >ColorConfiguration.mbd</a></li><li><a href="../MBDoc/Code/Classes/ColorInfo.html" >ColorInfo.mbd</a></li><li><a href="../MBDoc/Code/Classes/Coloring.html" >Coloring.mbd</a></li><li><a href="../MBDoc/Code/Classes/CommonCompilationOptions.html" >CommonCompilationOptions.mbd</a></li><li><a href="../MBDoc/Code/Classes/Directive.html" >Directive.mbd</a></li><li><a href="../MBDoc/Code/Classes/DirectiveVisitor.html" >DirectiveVisitor.mbd</a></li><li><a href="../MBDoc/Code/Classes/DocCLI.html" >DocCLI.mbd</a></li><li><a href="../MBDoc/Code/Classes/DocReference.html" >DocReference.mbd</a></li><li><a href="../MBDoc/Code/Classes/DocumentBuild.html" >DocumentBuild.mbd</a></li><li><a href="../MBDoc/Code/Classes/DocumentCompiler.html" >DocumentCompiler.mbd</a></li><li><a href="../MBDoc/Code/Classes/DocumentDirectoryInfo.html" >DocumentDirectoryInfo.mbd</a></li><li><a href="../MBDoc/Code/Classes/DocumentFilesystem.html" >DocumentFilesystem.mbd</a></li><li><a href="../MBDoc/Code/Classes/DocumentFilesystemIterator.html" >DocumentFilesystemIterator.mbd</a></li><li><a href="../MBDoc/Code/Classes/DocumentParsingContext.html" >DocumentParsingContext.mbd</a></li><li><a href="../MBDoc/Code/Classes/DocumentPath.html" >DocumentPath.mbd</a></li><li><a href="../MBDoc/Code/Classes/DocumentPathFileIterator.html" >DocumentPathFileIterator.mbd</a></li><li><a href="../MBDoc/Code/Classes/DocumentReference.html" >DocumentReference.mbd</a></li><li><a href="../MBDoc/Code/Classes/DocumentSource.html" >DocumentSource.mbd</a></li><li><a href="../MBDoc/Code/Classes/DocumentTraverser.html" >DocumentTraverser.mbd</a></li><li><a href="../MBDoc/Code/Classes/DocumentVisitor.html" >DocumentVisitor.mbd</a></li><li><a href="../MBDoc/Code/Classes/FileReference.html" >FileReference.mbd</a></li><li><a href="../MBDoc/Code/Classes/FilesystemDocumentInfo.html" >FilesystemDocumentInfo.mbd</a></li><li><a href="../MBDoc/Code/Classes/FormatElement.html" >FormatElement.mbd</a></li><li><a href="../MBDoc/Code/Classes/FormatElementComponent.html" >FormatElementComponent.mbd</a></li><li><a href="../MBDoc/Code/Classes/FormatVisitor.html" >FormatVisitor.mbd</a></li><li><a href="../MBDoc/Code/Classes/HTMLCompiler.html" >HTMLCompiler.mbd</a></li><li><a href="../MBDoc/Code/Classes/HTMLNavigationCreator.html" >HTMLNavigationCreator.mbd</a></li><li><a href="../MBDoc/Code/Classes/HTMLReferenceSolver.html" >HTMLReferenceSolver.mbd</a></li><li><a href="../MBDoc/Code/Classes/HTTPTocCreator.html" >HTTPTocCreator.mbd</a></li><li><a href="../MBDoc/Code/Classes/LSPInfo.html" >LSPInfo.mbd</a></li><li><a href="../MBDoc/Code/Classes/LSPServer.html" >LSPServer.mbd</a></li><li><a href="../MBDoc/Code/Classes/LanguageConfig.html" >LanguageConfig.mbd</a></li><li><a href="../MBDoc/Code/Classes/LineIndex.html" >LineIndex.mbd</a></li><li><a href="../MBDoc/Code/Classes/LineRetriever.html" >LineRetriever.mbd</a></li><li><a href="../MBDoc/Code/Classes/MarkdownCompiler.html" >MarkdownCompiler.mbd</a></li><li><a href="../MBDoc/Code/Classes/MarkdownReferenceSolver.html" >MarkdownReferenceSolver.mbd</a></li><li><a href="../MBDoc/Code/Classes/MediaInclude.html" >MediaInclude.mbd</a></li><li><a href="../MBDoc/Code/Classes/Paragraph.html" >Paragraph.mbd</a></li><li><a href="../MBDoc/Code/Classes/PathSpecifier.html" >PathSpecifier.mbd</a></li><li><a href="../MBDoc/Code/Classes/PreProcessorBlock.html" >PreProcessorBlock.mbd</a></li><li><a href="../MBDoc/Code/Classes/ProcessedColorConfiguration.html" >ProcessedColorConfiguration.mbd</a></li><li><a href="../MBDoc/Code/Classes/ProcessedColorInfo.html" >ProcessedColorInfo.mbd</a></li><li><a href="../MBDoc/Code/Classes/ProcessedLanguageColorConfig.html" >ProcessedLanguageColorConfig.mbd</a></li><li><a href="../MBDoc/Code/Classes/ProcessedRegexColoring.html" >ProcessedRegexColoring.mbd</a></li><li><a href="../MBDoc/Code/Classes/ReferenceResolver.html" >ReferenceResolver.mbd</a></li><li><a href="../MBDoc/Code/Classes/ReferenceTargetsResolver.html" >ReferenceTargetsResolver.mbd</a></li><li><a href="../MBDoc/Code/Classes/ReferenceVisitor.html" >ReferenceVisitor.mbd</a></li><li><a href="../MBDoc/Code/Classes/RegularText.html" >RegularText.mbd</a></li><li><a href="../MBDoc/Code/Classes/ResolvedCodeText.html" >ResolvedCodeText.mbd</a></li><li><a href="../MBDoc/Code/Classes/Table.html" >Table.mbd</a></li><li><a href="../MBDoc/Code/Classes/TextColor.html" >TextColor.mbd</a></li><li><a href="../MBDoc/Code/Classes/TextElement.html" >TextElement.mbd</a></li><li><a href="../MBDoc/Code/Classes/TextElement_Base.html" >TextElement_Base.mbd</a></li><li><a href="../MBDoc/Code/Classes/TextVisitor.html" >TextVisitor.mbd</a></li><li><a href="../MBDoc/Code/Classes/URLReference.html" >URLReference.mbd</a></li><li><a href="../MBDoc/Code/Classes/UnresolvedReference.html" >UnresolvedReference.mbd</a></li></ul></details></li><li><details><summary><a href="../MBDoc/Code/Functions/index.html">Functions</a></summary><ul><li><a href="../MBDoc/Code/Functions/GetTypeIndex.html" >GetTypeIndex.mbd</a></li><li><a href="../MBDoc/Code/Functions/ProcessColorConfig.html" >ProcessColorConfig.mbd</a></li><li><a href="../MBDoc/Code/Functions/StartLSPServer.html" >StartLSPServer.mbd</a></li><li><a href="../MBDoc/Code/Functions/operator&.html" >operator&.mbd</a></li><li><a href="../MBDoc/Code/Functions/operator^.html" >operator^.mbd</a></li><li><a href="../MBDoc/Code/Functions/operator~.html" >operator~.mbd</a></li></ul></details></li><li><details><summary><a href="../MBDoc/Code/Sources/index.html">Sources</a></summary><ul><li><a href="../MBDoc/Code/Sources/ColorConf.html" >ColorConf.mbd</a></li><li><a href="../MBDoc/Code/Sources/LSP.html" >LSP.mbd</a></li><li><a href="../MBDoc/Code/Sources/MBDoc.html" >MBDoc.mbd</a></li><li><a href="../MBDoc/Code/Sources/MBDocCLI.html" >MBDocCLI.mbd</a></li><li><a href="../MBDoc/Code/Sources/MBDocMain.html" >MBDocMain.mbd</a></li><li><details><summary><a href="../MBDoc/Code/Sources/Compilers/index.html">Compilers</a></summary><ul><li><a href="../MBDoc/Code/Sources/Compilers/HTML.html" >HTML.mbd</a></li><li><a href="../MBDoc/Code/Sources/Compilers/Markdown.html" >Markdown.mbd</a></li></ul></details></li></ul></details></li></ul></details></li><li><details><summary><a href="../MBDoc/Compiler/index.html">Compiler</a></summary><ul><li><a href="../MBDoc/Compiler/index.html" >index.mbd</a></li></ul></details></li></ul></details></li><li><details><summary><a href="../MBDocGen/index.html">MBDocGen</a></summary><ul><li><details><summary><a href="../MBDocGen/Code/index.html">Code</a></summary><ul><li><details><summary><a href="../MBDocGen/Code/Classes/index.html">Classes</a></summary><ul><li><a href="../MBDocGen/Code/Classes/CppClass.html" >CppClass.mbd</a></li><li><a href="../MBDocGen/Code/Classes/CppClassContent.html" >CppClassContent.mbd</a></li><li><a href="../MBDocGen/Code/Classes/CppDocGenerator.html" >CppDocGenerator.mbd</a></li><li><a href="../MBDocGen/Code/Classes/CppHeaderContent.html" >CppHeaderContent.mbd</a></li><li><a href="../MBDocGen/Code/Classes/DocGenCLI.html" >DocGenCLI.mbd</a></li><li><a href="../MBDocGen/Code/Classes/TestStruct.html" >TestStruct.mbd</a></li></ul></details></li><li><details><summary><a href="../MBDocGen/Code/Functions/index.html">Functions</a></summary><ul><li><a href="../MBDocGen/Code/Functions/EnumDoer.html" >EnumDoer.mbd</a></li><li><a href="../MBDocGen/Code/Functions/TestFunc.html" >TestFunc.mbd</a></li></ul></details></li><li><details><summary><a href="../MBDocGen/Code/Sources/index.html">Sources</a></summary><ul><li><a href="../MBDocGen/Code/Sources/MBDocGenMain.html" >MBDocGenMain.mbd</a></li><li><a href="../MBDocGen/Code/Sources/MBDocGen_CLI.html" >MBDocGen_CLI.mbd</a></li></ul></details></li></ul></details></li></ul></details></li><li><details open=""><summary><a href="index.html">MBPacketManager</a></summary><ul><li><a href="index.html" >index.mbd</a></li><li><a href="CLI.html" >CLI.mbd</a></li><li><a href="DevelopmentStructure.html" >DevelopmentStructure.mbd</a></li><li><a href="Packets.html" >Packets.mbd</a></li><li><mark><a href="" >PacketsSpecification.mbd</a></mark></li><li><a href="SubPackets.html" >SubPackets.mbd</a></li><li><a href="Extensions.html" >Extensions.mbd</a></li><li><a href="Terminology.html" >Terminology.mbd</a></li><li><a href="History.html" >History.mbd</a></li><li><details><summary><a href="MBBuild/index.html">MBBuild</a></summary><ul><li><a href="MBBuild/index.html" >index.mbd</a></li><li><a href="MBBuild/History.html" >History.mbd</a></li><li><a href="MBBuild/Buildsystem.html" >Buildsystem.mbd</a></li><li><a href="MBBuild/MBCompileConfigurations.html" >MBCompileConfigurations.mbd</a></li><li><a href="MBBuild/MBDependancySpecification.html" >MBDependancySpecification.mbd</a></li><li><a href="MBBuild/MBSourceInfo.html" >MBSourceInfo.mbd</a></li><li><a href="MBBuild/CLI.html" >CLI.mbd</a></li></ul></details></li></ul></details></li><li><details><summary><a href="../MBUtility/index.html">MBUtility</a></summary><ul><li><a href="../MBUtility/index.html" >index.mbd</a></li><li><a href="../MBUtility/IO.html" >IO.mbd</a></li><li><details><summary><a href="../MBUtility/Code/index.html">Code</a></summary><ul><li><details><summary><a href="../MBUtility/Code/Classes/index.html">Classes</a></summary><ul><li><a href="../MBUtility/Code/Classes/FSObjectInfo.html" >FSObjectInfo.mbd</a></li><li><a href="../MBUtility/Code/Classes/Filesystem.html" >Filesystem.mbd</a></li><li><a href="../MBUtility/Code/Classes/LineRetriever.html" >LineRetriever.mbd</a></li><li><a href="../MBUtility/Code/Classes/MBBasicUserAuthenticator.html" >MBBasicUserAuthenticator.mbd</a></li><li><a href="../MBUtility/Code/Classes/MBBufferInputStream.html" >MBBufferInputStream.mbd</a></li><li><a href="../MBUtility/Code/Classes/MBFileInputStream.html" >MBFileInputStream.mbd</a></li><li><a href="../MBUtility/Code/Classes/MBFileOutputStream.html" >MBFileOutputStream.mbd</a></li><li><a href="../MBUtility/Code/Classes/MBOctetInputStream.html" >MBOctetInputStream.mbd</a></li><li><a href="../MBUtility/Code/Classes/MBOctetOutputStream.html" >MBOctetOutputStream.mbd</a></li><li><a href="../MBUtility/Code/Classes/MBSearchableInputStream.html" >MBSearchableInputStream.mbd</a></li><li><a href="../MBUtility/Code/Classes/MBSearchableOutputStream.html" >MBSearchableOutputStream.mbd</a></li><li><a href="../MBUtility/Code/Classes/MBStringOutputStream.html" >MBStringOutputStream.mbd</a></li><li><a href="../MBUtility/Code/Classes/OS_Filesystem.html" >OS_Filesystem.mbd</a></li><li><a href="../MBUtility/Code/Classes/TerminalOutput.html" >TerminalOutput.mbd</a></li></ul></details></li><li><details><summary><a href="../MBUtility/Code/Functions/index.html">Functions</a></summary><ul><li><a href="../MBUtility/Code/Functions/FSErrorToString.html" >FSErrorToString.mbd</a></li><li><a href="../MBUtility/Code/Functions/FSTypeToString.html" >FSTypeToString.mbd</a></li><li><a href="../MBUtility/Code/Functions/ReadWholeFile.html" >ReadWholeFile.mbd</a></li><li><a href="../MBUtility/Code/Functions/StringToFSObjectType.html" >StringToFSObjectType.mbd</a></li><li><a href="../MBUtility/Code/Functions/WriteData.html" >WriteData.mbd</a></li><li><a href="../MBUtility/Code/Functions/operator!.html" >operator!.mbd</a></li></ul></details></li><li><details><summary><a href="../MBUtility/Code/Sources/index.html">Sources</a></summary><ul><li><a href="../MBUtility/Code/Sources/Filesystem.html" >Filesystem.mbd</a></li><li><a href="../MBUtility/Code/Sources/MBCompileDefinitions.html" >MBCompileDefinitions.mbd</a></li><li><a href="../MBUtility/Code/Sources/MBErrorHandling.html" >MBErrorHandling.mbd</a></li><li><a href="../MBUtility/Code/Sources/MBFiles.html" >MBFiles.mbd</a></li><li><a href="../MBUtility/Code/Sources/MBInterfaces.html" >MBInterfaces.mbd</a></li><li><a href="../MBUtility/Code/Sources/MBMatrix.html" >MBMatrix.mbd</a></li><li><a href="../MBUtility/Code/Sources/MBUtilityTest.html" >MBUtilityTest.mbd</a></li></ul></details></li></ul></details></li></ul></details></li></ul></details></div><div style="width: 80ch; display: inline-block; position: absolute; top: 0; left: 0; right: 0; bottom: 0; margin: auto;"><h1 style="text-align: center;">Packets</h1>
+The most core part of mbpm's functionality is in the vectorisation of commands over packets. Almost all commands work over multiple packets at the same time. This page describes the syntax and semantics of the "PacketSpecification" part of the command line of most packets. <br><br>
 
 <h1 id="The pipeline" style = "text-align: center;">1 The pipeline</h1><br>
-    A packet specification consist of a couple of distinct steps, with the input     from the previous step being the input for the next. A step in the pipeline     is skipped if no option in the command changes it's default behaviour,     which is always to leave the current packet list unchanged. <br><br>
+A packet specification consist of a couple of distinct steps, with the input from the previous step being the input for the next. A step in the pipeline is skipped if no option in the command changes it's default behaviour, which is always to leave the current packet list unchanged. <br><br>
 
-<mark>Note: </mark>    Any fatal error occuring during this process is guaranteed to terminate the     process. If the process is terminated this way so is the command also     guaranteed not to have executed on any packets. <br><br>
+<mark>Note: </mark>Any fatal error occuring during this process is guaranteed to terminate the process. If the process is terminated this way so is the command also guaranteed not to have executed on any packets. <br><br>
 
-<mark>Note: </mark>    Trying to add a packet to the list that doesn't exist is always treated as a     fatal error, except for remote packets. These packets are instead verfied to     exist during the execution of the command. It is up to the command to     determine the course of action if a remote packet doesn't exist. How a     packet is determined to exist given a location and packet name is described     <a href="Packets.html">here</a>. <br><br>
+<mark>Note: </mark>Trying to add a packet to the list that doesn't exist is always treated as a fatal error, except for remote packets. These packets are instead verfied to exist during the execution of the command. It is up to the command to determine the course of action if a remote packet doesn't exist. How a packet is determined to exist given a location and packet name is described <a class="link" href="Packets.html">here</a>. <br><br>
 
-<h2 id="Simple packet specification" >1.1 Simple packet specification</h2><br>
-        The first step of a packet specification. This step always identifies         individual packtes, which are further processed. <br><br>
+<h2 id="The pipeline_Simple packet specification" >1.1 Simple packet specification</h2><br>
+The first step of a packet specification. This step always identifies individual packtes, which are further processed. <br><br>
 
-        Every packet specification has a list of "arguments", which is every         part of the command line that isn't identifying the top command or sub         command, and which is not a part of a flag or single argument option.         These strings are interpreted as packet names, or packet URI's for local         packets. <br><br>
+Every packet specification has a list of "arguments", which is every part of the command line that isn't identifying the top command or sub command, and which is not a part of a flag or single argument option. These strings are interpreted as packet names, or packet URI's for local packets. <br><br>
 
-        The <a href="#" style="color: red;">location type</a> of these packet names are         determined by the default location type for the given command, but is         usually interpreted as a          <a href="Packets.html#Installed packet">installed packet</a>.  <br><br>
+The <a class="link" href="#" style="color: red;">location type</a> of these packet names are determined by the default location type for the given command, but is usually interpreted as a <a class="link" href="#" style="color: red;">installed packet</a>. <br><br>
 
-<mark>Note: </mark>        A argument begining with . or containing / is always interpeted as the         URI for a          <a href="#" style="color: red;">local packet</a>, as these would otherwise         form an invalid packet name.  <br><br>
+<mark>Note: </mark>A argument begining with . or containing / is always interpeted as the URI for a <a class="link" href="#" style="color: red;">local packet</a>, as these would otherwise form an invalid packet name. <br><br>
 
-        The default packet location of a command can always be overriden with         the following flags: <br><br>
+The default packet location of a command can always be overriden with the following flags: <br><br>
 
-<h2 id="Default location flags" >1.2 Default location flags</h2><br>
-<h3 id="local" >1.2.1 local</h3><br>
-                Interpretes all arguments as directory name identifying a local                 packet. <br><br>
+<h2 id="The pipeline_Default location flags" >1.2 Default location flags</h2><br>
+<h3 id="The pipeline_Default location flags_local" >1.2.1 local</h3><br>
+Interpretes all arguments as directory name identifying a local packet. <br><br>
 
-<h3 id="installed" >1.2.2 installed</h3><br>
-                Interpretes all arguments as the packet name of a installed                 packet. <br><br>
+<h3 id="The pipeline_Default location flags_installed" >1.2.2 installed</h3><br>
+Interpretes all arguments as the packet name of a installed packet. <br><br>
 
-<h3 id="user" >1.2.3 user</h3><br>
-                Interpretes all arguments as the packet name of a user                 packet. <br><br>
+<h3 id="The pipeline_Default location flags_user" >1.2.3 user</h3><br>
+Interpretes all arguments as the packet name of a user packet. <br><br>
 
-<h3 id="remote" >1.2.4 remote</h3><br>
-                Interpretes all arguments as the packet name of a remote                 packet. <br><br>
+<h3 id="The pipeline_Default location flags_remote" >1.2.4 remote</h3><br>
+Interpretes all arguments as the packet name of a remote packet. <br><br>
 
-<mark>Note: </mark>            Multiple default location flags being present in a command line is             treated as fatal error. <br><br>
+<mark>Note: </mark>Multiple default location flags being present in a command line is treated as fatal error. <br><br>
 
-<h2 id="Direct packet specification" >1.3 Direct packet specification</h2><br>
-            The following single argument options directly adds a packet to the result             list without relying on the default packet type. <br><br>
+<h2 id="The pipeline_Direct packet specification" >1.3 Direct packet specification</h2><br>
+The following single argument options directly adds a packet to the result list without relying on the default packet type. <br><br>
 
-<h3 id="r" >1.3.1 r</h3><br>
-                Interpates the argument as the name of a remote packet. <br><br>
+<h3 id="The pipeline_Direct packet specification_r" >1.3.1 r</h3><br>
+Interpates the argument as the name of a remote packet. <br><br>
 
-<h3 id="i" >1.3.2 i</h3><br>
-                Interpates the argument as the name of a installed packet. <br><br>
+<h3 id="The pipeline_Direct packet specification_i" >1.3.2 i</h3><br>
+Interpates the argument as the name of a installed packet. <br><br>
 
-<h3 id="u" >1.3.3 u</h3><br>
-                Interpates the argument as the name of a user packet. <br><br>
+<h3 id="The pipeline_Direct packet specification_u" >1.3.3 u</h3><br>
+Interpates the argument as the name of a user packet. <br><br>
 
-<h3 id="l" >1.3.4 l</h3><br>
-                Interpates the argument as the directory of a local packet. <br><br>
+<h3 id="The pipeline_Direct packet specification_l" >1.3.4 l</h3><br>
+Interpates the argument as the directory of a local packet. <br><br>
 
-<mark>Note: </mark>        The order of which packets are processed by the command may be relevant,         and the order of packets specified through the argument list are         guaranteed to be added to the packet list in the same order, but packets         specified through          <a href="#Direct packet specification">direct packet specification</a>         are always added after the packets specified through the argument list,         and with unspecified order. <br><br>
+<mark>Note: </mark>The order of which packets are processed by the command may be relevant, and the order of packets specified through the argument list are guaranteed to be added to the packet list in the same order, but packets specified through <a class="link" href="#" style="color: red;">direct packet specification</a> are always added after the packets specified through the argument list, and with unspecified order. <br><br>
 
-<h2 id="Examples" >1.4 Examples</h2><br>
+<h2 id="The pipeline_Examples" >1.4 Examples</h2><br>
 <pre># Specifies that MBUtility and MBParsing should be compiled and because compile
 # has as default location type as installed so are the installed packets checked
 # for packets named MBUtility and MBParsing
@@ -65,63 +65,63 @@ mbpm compile MBUtility MBParsing --user
 # deafult location is ignored, therefor MBCLI is in the following commands
 # always interpreted as being the name of a user packet
 mbpm compile MBUtility MBParsing -u:MBCLI
-mbpm compile MBUtility MBParsing --remote -u:MBCLI</pre><h2 id="Total packets specification" >1.5 Total packets specification</h2><br>
-        This part of the pipeline only adds packets to the process and doesn't         modify or remove any packets, and consists of two flags: <br><br>
+mbpm compile MBUtility MBParsing --remote -u:MBCLI</pre><h2 id="The pipeline_Total packets specification" >1.5 Total packets specification</h2><br>
+This part of the pipeline only adds packets to the process and doesn't modify or remove any packets, and consists of two flags: <br><br>
 
-<h3 id="allinstalled" >1.5.1 allinstalled</h3><br>
-            Adds all installed packets to the packet list.  <br><br>
+<h3 id="The pipeline_Total packets specification_allinstalled" >1.5.1 allinstalled</h3><br>
+Adds all installed packets to the packet list. <br><br>
 
-            The packets added here are guaranteed to be added in              <a href="Terminology.html#Dependancy order">dependancy order</a>.  <br><br>
+The packets added here are guaranteed to be added in <a class="link" href="Terminology.html#Dependancy order">dependancy order</a>. <br><br>
 
-<h3 id="alluser" >1.5.2 alluser</h3><br>
-            Adds all user packets to the packet list. The order of how these             packets are added to the list is unspecified. <br><br>
+<h3 id="The pipeline_Total packets specification_alluser" >1.5.2 alluser</h3><br>
+Adds all user packets to the packet list. The order of how these packets are added to the list is unspecified. <br><br>
 
-<h3 id="Examples" >1.5.3 Examples</h3><br>
-<pre></pre><h2 id="Packet modifiers" >1.6 Packet modifiers</h2><br>
-        This part of the pipeline takes the current packet list and creates a         new packet list. It currently consists of 2 flags, dependants, and         dependancies.  <br><br>
+<h3 id="The pipeline_Total packets specification_Examples" >1.5.3 Examples</h3><br>
+<pre></pre><h2 id="The pipeline_Packet modifiers" >1.6 Packet modifiers</h2><br>
+This part of the pipeline takes the current packet list and creates a new packet list. It currently consists of 2 flags, dependants, and dependancies. <br><br>
 
-<h3 id="dependancies / dependanciesi" >1.6.1 dependancies / dependanciesi</h3><br>
-            If this flag is specified, the packet list is replaced with a list             of packets that contains all of the packets that are a dependancy of             any packet in the original list. The new packet list is guaranteed to             have no duplicate packages, and is also guaranteed to be in              <a href="Terminology.html#Dependancy order">dependancy order</a>. <br><br>
+<h3 id="The pipeline_Packet modifiers_dependancies / dependanciesi" >1.6.1 dependancies / dependanciesi</h3><br>
+If this flag is specified, the packet list is replaced with a list of packets that contains all of the packets that are a dependancy of any packet in the original list. The new packet list is guaranteed to have no duplicate packages, and is also guaranteed to be in <a class="link" href="Terminology.html#Dependancy order">dependancy order</a>. <br><br>
 
-            Dependancies for the packet list are always checked against the             installed packets, which means that all of the new packets are             always installed packets. <br><br>
+Dependancies for the packet list are always checked against the installed packets, which means that all of the new packets are always installed packets. <br><br>
 
-            The difference between dependancies and dependanciesi is that             dependanciesi is inclusive, that is it also includes the original             packets in the newly generated list on the correct dependancy order,             and as an installed packet.  <br><br>
+The difference between dependancies and dependanciesi is that dependanciesi is inclusive, that is it also includes the original packets in the newly generated list on the correct dependancy order, and as an installed packet. <br><br>
 
-<h3 id="dependants / dependantsi" >1.6.2 dependants / dependantsi</h3><br>
-            If this flag is specified, the packet list is replaced with a list             of packet that contains all of the dependants of every packet in the             original list. The new packet list is guaranteed to have no             duplicate packages, and is also guaranteed to be in                <a href="Terminology.html#Dependancy order">dependancy order</a>. <br><br>
+<h3 id="The pipeline_Packet modifiers_dependants / dependantsi" >1.6.2 dependants / dependantsi</h3><br>
+If this flag is specified, the packet list is replaced with a list of packet that contains all of the dependants of every packet in the original list. The new packet list is guaranteed to have no duplicate packages, and is also guaranteed to be in <a class="link" href="Terminology.html#Dependancy order">dependancy order</a>. <br><br>
 
-            Dependants for the packet list are always checked against the             installed packets, which means that all of the new packets              installed packets. <br><br>
+Dependants for the packet list are always checked against the installed packets, which means that all of the new packets installed packets. <br><br>
 
-            The difference between dependants and dependantsi is that             dependantsi is inclusive, that is it also includes the original             packets in the newly generated list on the correct dependancy order,             and as an installed packet.  <br><br>
+The difference between dependants and dependantsi is that dependantsi is inclusive, that is it also includes the original packets in the newly generated list on the correct dependancy order, and as an installed packet. <br><br>
 
-<h3 id="Design note" >1.6.3 Design note</h3><br>
-            These functions always returning the result based on the installed             packet is because all packets on a system is assumed to depend on             only the installed packets. While a user packet might be a modified             version of a installed packet that is being developed, so is the             user packet still assumed to only depend on other installed packets. <br><br>
+<h3 id="The pipeline_Packet modifiers_Design note" >1.6.3 Design note</h3><br>
+These functions always returning the result based on the installed packet is because all packets on a system is assumed to depend on only the installed packets. While a user packet might be a modified version of a installed packet that is being developed, so is the user packet still assumed to only depend on other installed packets. <br><br>
 
-<h3 id="Examples" >1.6.4 Examples</h3><br>
-<pre></pre><h2 id="Packet filters" >1.7 Packet filters</h2><br>
-        This part of the pipeline only removes packets from the packet list,         based on a predicate. This part of the pipeline consists of 2 single         argument options: <br><br>
+<h3 id="The pipeline_Packet modifiers_Examples" >1.6.4 Examples</h3><br>
+<pre></pre><h2 id="The pipeline_Packet filters" >1.7 Packet filters</h2><br>
+This part of the pipeline only removes packets from the packet list, based on a predicate. This part of the pipeline consists of 2 single argument options: <br><br>
 
-<h3 id="a" >1.7.1 a</h3><br>
-            This filter removes all packets that doesnt't have the              <a href="#" style="color: red;">packet attribute</a> specified in             the argument. <br><br>
+<h3 id="The pipeline_Packet filters_a" >1.7.1 a</h3><br>
+This filter removes all packets that doesnt't have the <a class="link" href="#" style="color: red;">packet attribute</a> specified in the argument. <br><br>
 
-<h3 id="na" >1.7.2 na</h3><br>
-            This filter removes all packets that has the              <a href="#" style="color: red;">packet attribute</a>             specified in it's argument. <br><br>
+<h3 id="The pipeline_Packet filters_na" >1.7.2 na</h3><br>
+This filter removes all packets that has the <a class="link" href="#" style="color: red;">packet attribute</a> specified in it's argument. <br><br>
 
-        The relative order of the packets remaining are preserved after all of         the filters are applied. <br><br>
+The relative order of the packets remaining are preserved after all of the filters are applied. <br><br>
 
-<h3 id="Examples" >1.7.3 Examples</h3><br>
-<pre></pre><h2 id="Location modifers" >1.8 Location modifers</h2><br>
-        Location modifies keep all of the packets in the current packet list,         but modifies them to refer to a different location. For each packet, the         new packet is determined by finding the packet with the same name as         the current packet, but in the new location. This part of the pipeline         currently consists of one single argument option. <br><br>
+<h3 id="The pipeline_Packet filters_Examples" >1.7.3 Examples</h3><br>
+<pre></pre><h2 id="The pipeline_Location modifers" >1.8 Location modifers</h2><br>
+Location modifies keep all of the packets in the current packet list, but modifies them to refer to a different location. For each packet, the new packet is determined by finding the packet with the same name as the current packet, but in the new location. This part of the pipeline currently consists of one single argument option. <br><br>
 
-<h3 id="m" >1.8.1 m</h3><br>
-            The argument can only be "installed" or "user", all other values are             treated as a fatal error. <br><br>
+<h3 id="The pipeline_Location modifers_m" >1.8.1 m</h3><br>
+The argument can only be "installed" or "user", all other values are treated as a fatal error. <br><br>
 
-            All packets are modified to point to the packet of the same name in             the new location. <br><br>
+All packets are modified to point to the packet of the same name in the new location. <br><br>
 
-<h3 id="Design note" >1.8.2 Design note</h3><br>
-            This part mostly exists in order to compensate for the fact that              "--allinstalled" and "--alldependants" only returns the installed             packets. Often times the user packets might want to be specified,             especially in conjunction with the create top command. <br><br>
+<h3 id="The pipeline_Location modifers_Design note" >1.8.2 Design note</h3><br>
+This part mostly exists in order to compensate for the fact that "--allinstalled" and "--alldependants" only returns the installed packets. Often times the user packets might want to be specified, especially in conjunction with the create top command. <br><br>
 
 <h1 id="Result" style = "text-align: center;">2 Result</h1><br>
-    The result of a packet specification is always a list of packets to be     processed by the given command. The command is guaranteed to process the     packets in the order of the resulting packet list. <br><br>
+The result of a packet specification is always a list of packets to be processed by the given command. The command is guaranteed to process the packets in the order of the resulting packet list. <br><br>
 
 </div></div></body></html>
